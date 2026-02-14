@@ -1,15 +1,13 @@
-{% if messages %}
+{%if messages %}
 <div class="toast-container">
-  {% for message in messages %}
+  {%for message in messages %}
   <div
-    class="toast toast-{{ message.tags }}"
+    class="toast toast-{{message.tags }}"
     onclick="this.remove()"
-    id="toast-{{ forloop.counter }}"
-  >
-    {% if message.tags == 'success' %}✅ {% elif message.tags == 'error' %}❌ {%
-    elif message.tags == 'warning' %}⚠️ {% else %}ℹ️{% endif %} {{ message }}
+    id="toast-{{forloop.counter }}">
+    {%if message.tags == 'success' %}✅ {%elif message.tags == 'error' %}❌ {%elif message.tags == 'warning' %}⚠️ {%else %}ℹ️{%endif %} {{message }}
   </div>
-  {% endfor %}
+  {%endfor %}
 </div>
 
 <script>
@@ -29,4 +27,4 @@
     }
   }
 </style>
-{% endif %}
+{%endif %}

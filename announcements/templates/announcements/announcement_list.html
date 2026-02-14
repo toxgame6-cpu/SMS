@@ -1,197 +1,137 @@
-{% extends 'layouts/base.html' %} {% block title %}Announcements - SMS Portal{%
-endblock %} {% block breadcrumb %}{{ request.user.get_role_display }} >
-Announcements{% endblock %} {% block content %}
+{%extends 'layouts/base.html' %}
+{%block title %}Announcements - SMS Portal{%endblock %}
+{%block breadcrumb %}{{request.user.get_role_display }} > Announcements{%endblock %}
+{%block content %}
 <div class="page-header flex-between">
-  <div>
-    <h1>📢 Announcements</h1>
-    <p>
-      {% if unread_count > 0 %}
-      <span class="badge badge-danger">{{ unread_count }} unread</span>
-      {% else %} All caught up! {% endif %}
-    </p>
-  </div>
-  <div>
-    {% if request.user.role == 'admin' or request.user.role == 'hod' %}
-    <a href="{% url 'announcement_create' %}" class="btn btn-primary"
-      >📢 New Announcement</a
-    >
-    {% endif %}
-    <form
-      method="POST"
-      action="{% url 'mark_all_announcements_read' %}"
-      style="display: inline"
-    >
-      {% csrf_token %}
-      <button type="submit" class="btn btn-secondary btn-sm">
-        ✅ Mark All Read
-      </button>
-    </form>
-  </div>
+    <div>
+        <h1>📢 Announcements</h1>
+        <p>
+            {%if unread_count > 0 %}
+            <span class="badge badge-danger">{{unread_count }} unread</span>
+            {%else %}
+            All caught up!
+            {%endif %}
+        </p>
+    </div>
+    <div>
+        {%if request.user.role == 'admin' or request.user.role == 'hod' %}
+        <a href="{%url 'announcement_create' %}" class="btn btn-primary">📢 New Announcement</a>
+        {%endif %}
+        <form method="POST" action="{%url 'mark_all_announcements_read' %}" style="display: inline;">
+            {%csrf_token %}
+            <button type="submit" class="btn btn-secondary btn-sm">✅ Mark All Read</button>
+        </form>
+    </div>
 </div>
 
 <!-- Filters -->
-<div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap">
-  <a
-    href="{% url 'announcement_list' %}"
-    class="btn {% if not category_filter %}btn-primary{% else %}btn-secondary{% endif %} btn-sm"
-    >All</a
-  >
-  {% for value, label in categories %}
-  <a
-    href="{% url 'announcement_list' %}?category={{ value }}"
-    class="btn {% if category_filter == value %}btn-primary{% else %}btn-secondary{% endif %} btn-sm"
-    >{{ label }}</a
-  >
-  {% endfor %}
+<div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+    <a href="{%url 'announcement_list' %}" class="btn {%if not category_filter %}btn-primary{%else %}btn-secondary{%endif %} btn-sm">All</a>
+    {%for value, label in categories %}
+    <a href="{%url 'announcement_list' %}?category={{value }}" class="btn {%if category_filter == value %}btn-primary{%else %}btn-secondary{%endif %} btn-sm">{{label }}</a>
+    {%endfor %}
 </div>
 
 <!-- Search -->
 <div class="card">
-  <form method="GET" class="search-bar">
-    <input
-      type="text"
-      name="search"
-      placeholder="Search announcements..."
-      value="{{ search }}"
-    />
-    {% if category_filter %}
-    <input type="hidden" name="category" value="{{ category_filter }}" />
-    {% endif %}
-    <button type="submit" class="btn btn-secondary btn-sm">Search</button>
-  </form>
+    <form method="GET" class="search-bar">
+        <input type="text" name="search" placeholder="Search announcements..." value="{{search }}" />
+        {%if category_filter %}
+        <input type="hidden" name="category" value="{{category_filter }}" />
+        {%endif %}
+        <button type="submit" class="btn btn-secondary btn-sm">Search</button>
+    </form>
 
-  {% if page_obj.object_list %} {% for announcement in page_obj %}
-  <div
-    class="card"
-    style="border-left: 4px solid {{ announcement.priority_color }}; {% if announcement.id not in read_ids %}background: #f0f9ff;{% endif %} margin-bottom: 12px;"
-  >
-    <!-- Header -->
-    <div class="flex-between">
-      <div
-        style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap"
-      >
-        {% if announcement.is_pinned %}
-        <span style="font-size: 16px">📌</span>
-        {% endif %} {% if announcement.id not in read_ids %}
-        <span class="badge badge-danger">NEW</span>
-        {% endif %}
-        <span
-          class="badge"
-          style="background: {% if announcement.category == 'general' %}#dbeafe{% elif announcement.category == 'exam' %}#fef3c7{% elif announcement.category == 'holiday' %}#dcfce7{% elif announcement.category == 'event' %}#f3e8ff{% elif announcement.category == 'urgent' %}#fee2e2{% else %}#e0e7ff{% endif %}; color: {% if announcement.category == 'general' %}#1d4ed8{% elif announcement.category == 'exam' %}#92400e{% elif announcement.category == 'holiday' %}#15803d{% elif announcement.category == 'event' %}#7c3aed{% elif announcement.category == 'urgent' %}#dc2626{% else %}#4338ca{% endif %};"
-        >
-          {{ announcement.category_emoji }} {{ announcement.get_category_display
-          }}
-        </span>
-        <span
-          class="badge"
-          style="background: {{ announcement.priority_color }}20; color: {{ announcement.priority_color }};"
-        >
-          {{ announcement.get_priority_display }}
-        </span>
-      </div>
-      <span style="font-size: 12px; color: #94a3b8"
-        >{{ announcement.created_at|timesince }} ago</span
-      >
+    {%if page_obj.object_list %}
+        {%for announcement in page_obj %}
+        <div class="card" style="border-left: 4px solid {{announcement.priority_color }}; {%if announcement.id not in read_ids %}background: #f0f9ff;{%endif %} margin-bottom: 12px;">
+            <!-- Header -->
+            <div class="flex-between">
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    {%if announcement.is_pinned %}
+                    <span style="font-size: 16px;">📌</span>
+                    {%endif %}
+                    {%if announcement.id not in read_ids %}
+                    <span class="badge badge-danger">NEW</span>
+                    {%endif %}
+                    <span class="badge" style="background: {%if announcement.category == 'general' %}#dbeafe{%elif announcement.category == 'exam' %}#fef3c7{%elif announcement.category == 'holiday' %}#dcfce7{%elif announcement.category == 'event' %}#f3e8ff{%elif announcement.category == 'urgent' %}#fee2e2{%else %}#e0e7ff{%endif %}; color: {%if announcement.category == 'general' %}#1d4ed8{%elif announcement.category == 'exam' %}#92400e{%elif announcement.category == 'holiday' %}#15803d{%elif announcement.category == 'event' %}#7c3aed{%elif announcement.category == 'urgent' %}#dc2626{%else %}#4338ca{%endif %};">
+                        {{announcement.category_emoji }} {{announcement.get_category_display }}
+                    </span>
+                    <span class="badge" style="background: {{announcement.priority_color }}20; color: {{announcement.priority_color }};">
+                        {{announcement.get_priority_display }}
+                    </span>
+                </div>
+                <span style="font-size: 12px; color: #94a3b8;">{{announcement.created_at|timesince }} ago</span>
+            </div>
+
+            <!-- Title & Content -->
+            <h3 style="margin-top: 12px; font-size: 16px;">
+                <a href="{%url 'announcement_detail' pk=announcement.pk %}" style="text-decoration: none; color: #0f172a;">
+                    {{announcement.title }}
+                </a>
+            </h3>
+            <p style="font-size: 14px; color: #475569; margin-top: 6px; line-height: 1.5;">
+                {{announcement.content|truncatewords:40 }}
+            </p>
+
+            <!-- Footer -->
+            <div style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                <div style="font-size: 12px; color: #94a3b8;">
+                    Posted by <strong>{{announcement.created_by.full_name }}</strong>
+                    ({{announcement.created_by.get_role_display }})
+                    {%if announcement.attachment %} | 📎 Attachment{%endif %}
+                    {%if announcement.visibility != 'all' %} | 👁 {{announcement.get_visibility_display }}{%endif %}
+                </div>
+                <div class="actions">
+                    <a href="{%url 'announcement_detail' pk=announcement.pk %}" class="btn btn-secondary btn-sm">👁 Read</a>
+                    {%if request.user.role == 'admin' or request.user == announcement.created_by %}
+                    <a href="{%url 'announcement_edit' pk=announcement.pk %}" class="btn btn-warning btn-sm">✏️</a>
+                    <form method="POST" action="{%url 'announcement_toggle_pin' pk=announcement.pk %}" style="display: inline;">
+                        {%csrf_token %}
+                        <button type="submit" class="btn btn-secondary btn-sm">{%if announcement.is_pinned %}📌 Unpin{%else %}📌 Pin{%endif %}</button>
+                    </form>
+                    <form method="POST" action="{%url 'announcement_delete' pk=announcement.pk %}" style="display: inline;" onsubmit="return confirm('Delete this announcement?');">
+                        {%csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">🗑</button>
+                    </form>
+                    {%endif %}
+                </div>
+            </div>
+        </div>
+        {%endfor %}
+
+        {%if page_obj.has_other_pages %}
+        <div class="pagination">
+            {%if page_obj.has_previous %}
+            <a href="?page={{page_obj.previous_page_number }}&category={{category_filter }}&search={{search }}">← Prev</a>
+            {%endif %}
+            {%for num in page_obj.paginator.page_range %}
+                {%if page_obj.number == num %}
+                <span class="current">{{num }}</span>
+                {%elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a href="?page={{num }}&category={{category_filter }}&search={{search }}">{{num }}</a>
+                {%endif %}
+            {%endfor %}
+            {%if page_obj.has_next %}
+            <a href="?page={{page_obj.next_page_number }}&category={{category_filter }}&search={{search }}">Next →</a>
+            {%endif %}
+        </div>
+        {%endif %}
+
+    {%else %}
+    <div class="empty-state">
+        <h3>No announcements</h3>
+        <p>
+            {%if request.user.role == 'admin' or request.user.role == 'hod' %}
+            Create your first announcement to get started.
+            {%else %}
+            No announcements to show.
+            {%endif %}
+        </p>
+        {%if request.user.role == 'admin' or request.user.role == 'hod' %}
+        <a href="{%url 'announcement_create' %}" class="btn btn-primary mt-10">📢 Create Announcement</a>
+        {%endif %}
     </div>
-
-    <!-- Title & Content -->
-    <h3 style="margin-top: 12px; font-size: 16px">
-      <a
-        href="{% url 'announcement_detail' pk=announcement.pk %}"
-        style="text-decoration: none; color: #0f172a"
-      >
-        {{ announcement.title }}
-      </a>
-    </h3>
-    <p
-      style="font-size: 14px; color: #475569; margin-top: 6px; line-height: 1.5"
-    >
-      {{ announcement.content|truncatewords:40 }}
-    </p>
-
-    <!-- Footer -->
-    <div
-      style="
-        margin-top: 12px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 8px;
-      "
-    >
-      <div style="font-size: 12px; color: #94a3b8">
-        Posted by <strong>{{ announcement.created_by.full_name }}</strong>
-        ({{ announcement.created_by.get_role_display }}) {% if
-        announcement.attachment %} | 📎 Attachment {% endif %} {% if
-        announcement.visibility != 'all' %} | 👁 {{
-        announcement.get_visibility_display }} {% endif %}
-      </div>
-      <div class="actions">
-        <a
-          href="{% url 'announcement_detail' pk=announcement.pk %}"
-          class="btn btn-secondary btn-sm"
-          >👁 Read</a
-        >
-        {% if request.user.role == 'admin' or request.user ==
-        announcement.created_by %}
-        <a
-          href="{% url 'announcement_edit' pk=announcement.pk %}"
-          class="btn btn-warning btn-sm"
-          >✏️</a
-        >
-        <form
-          method="POST"
-          action="{% url 'announcement_toggle_pin' pk=announcement.pk %}"
-          style="display: inline"
-        >
-          {% csrf_token %}
-          <button type="submit" class="btn btn-secondary btn-sm">
-            {% if announcement.is_pinned %}📌 Unpin{% else %}📌 Pin{% endif %}
-          </button>
-        </form>
-        <form
-          method="POST"
-          action="{% url 'announcement_delete' pk=announcement.pk %}"
-          style="display: inline"
-          onsubmit="return confirm('Delete this announcement?');"
-        >
-          {% csrf_token %}
-          <button type="submit" class="btn btn-danger btn-sm">🗑</button>
-        </form>
-        {% endif %}
-      </div>
-    </div>
-  </div>
-  {% endfor %} {% if page_obj.has_other_pages %}
-  <div class="pagination">
-    {% if page_obj.has_previous %}<a
-      href="?page={{ page_obj.previous_page_number }}&category={{ category_filter }}&search={{ search }}"
-      >← Prev</a
-    >{% endif %} {% for num in page_obj.paginator.page_range %}{% if
-    page_obj.number == num %}<span class="current">{{ num }}</span>{% elif num >
-    page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}<a
-      href="?page={{ num }}&category={{ category_filter }}&search={{ search }}"
-      >{{ num }}</a
-    >{% endif %}{% endfor %} {% if page_obj.has_next %}<a
-      href="?page={{ page_obj.next_page_number }}&category={{ category_filter }}&search={{ search }}"
-      >Next →</a
-    >{% endif %}
-  </div>
-  {% endif %} {% else %}
-  <div class="empty-state">
-    <h3>No announcements</h3>
-    <p>
-      {% if request.user.role == 'admin' or request.user.role == 'hod' %}Create
-      your first announcement to get started.{% else %}No announcements to
-      show.{% endif %}
-    </p>
-    {% if request.user.role == 'admin' or request.user.role == 'hod' %}
-    <a href="{% url 'announcement_create' %}" class="btn btn-primary mt-10"
-      >📢 Create Announcement</a
-    >
-    {% endif %}
-  </div>
-  {% endif %}
+    {%endif %}
 </div>
-{% endblock %}
+{%endblock %}

@@ -1,14 +1,11 @@
-{% extends 'layouts/base.html' %} {% block title %}Teacher Guardians - SMS
-Portal{% endblock %} {% block breadcrumb %}Admin > Guardians{% endblock %} {%
-block content %}
+{%extends 'layouts/base.html' %} {%block title %}Teacher Guardians - SMS
+Portal{%endblock %} {%block breadcrumb %}Admin > Guardians{%endblock %} {%block content %}
 <div class="page-header flex-between">
   <div>
     <h1>🧑‍🤝‍🧑 Teacher Guardians</h1>
     <p>Manage teacher guardian accounts</p>
   </div>
-  <a href="{% url 'guardian_create' %}" class="btn btn-primary"
-    >+ Create Guardian</a
-  >
+  <a href="{%url 'guardian_create' %}" class="btn btn-primary">+ Create Guardian</a>
 </div>
 
 <div class="card">
@@ -17,29 +14,23 @@ block content %}
       type="text"
       name="search"
       placeholder="Search guardians..."
-      value="{{ search }}"
+      value="{{search }}"
     />
     <select name="department" onchange="this.form.submit()">
       <option value="">All Departments</option>
-      {% for dept in departments %} {% if dept %}
+      {%for dept in departments %} {%if dept %}
       <option
-        value="{{ dept }}"
-        {%
-        if
-        dept=""
-        ="selected_department"
-        %}selected{%
-        endif
-        %}
+        value="{{dept }}"
+        {%if dept == selected_department %}selected{%endif %}
       >
-        {{ dept }}
+        {{dept }}
       </option>
-      {% endif %} {% endfor %}
+      {%endif %} {%endfor %}
     </select>
     <button type="submit" class="btn btn-secondary btn-sm">Search</button>
   </form>
 
-  {% if page_obj.object_list %}
+  {%if page_obj.object_list %}
   <table>
     <thead>
       <tr>
@@ -52,60 +43,45 @@ block content %}
       </tr>
     </thead>
     <tbody>
-      {% for guardian in page_obj %}
+      {%for guardian in page_obj %}
       <tr>
-        <td>{{ forloop.counter }}</td>
-        <td><strong>{{ guardian.full_name }}</strong></td>
-        <td>{{ guardian.email }}</td>
-        <td>{{ guardian.phone|default:"-" }}</td>
-        <td>{{ guardian.department|default:"-" }}</td>
+        <td>{{forloop.counter }}</td>
+        <td><strong>{{guardian.full_name }}</strong></td>
+        <td>{{guardian.email }}</td>
+        <td>{{guardian.phone|default:"-" }}</td>
+        <td>{{guardian.department|default:"-" }}</td>
         <td class="actions">
           <a
-            href="{% url 'guardian_detail' pk=guardian.pk %}"
-            class="btn btn-secondary btn-sm"
-            >👁</a
-          >
+            href="{%url 'guardian_detail' pk=guardian.pk %}"
+            class="btn btn-secondary btn-sm">👁</a>
           <a
-            href="{% url 'guardian_edit' pk=guardian.pk %}"
-            class="btn btn-warning btn-sm"
-            >✏️</a
-          >
+            href="{%url 'guardian_edit' pk=guardian.pk %}"
+            class="btn btn-warning btn-sm">✏️</a>
           <form
             method="POST"
-            action="{% url 'guardian_delete' pk=guardian.pk %}"
+            action="{%url 'guardian_delete' pk=guardian.pk %}"
             style="display: inline"
-            onsubmit="return confirm('Delete this guardian?');"
-          >
-            {% csrf_token %}
+            onsubmit="return confirm('Delete this guardian?');">
+            {%csrf_token %}
             <button type="submit" class="btn btn-danger btn-sm">🗑</button>
           </form>
         </td>
       </tr>
-      {% endfor %}
+      {%endfor %}
     </tbody>
   </table>
-  {% if page_obj.has_other_pages %}
+  {%if page_obj.has_other_pages %}
   <div class="pagination">
-    {% if page_obj.has_previous %}<a
-      href="?page={{ page_obj.previous_page_number }}&search={{ search }}"
-      >← Prev</a
-    >{% endif %} {% for num in page_obj.paginator.page_range %}{% if
-    page_obj.number == num %}<span class="current">{{ num }}</span>{% elif num >
-    page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}<a
-      href="?page={{ num }}&search={{ search }}"
-      >{{ num }}</a
-    >{% endif %}{% endfor %} {% if page_obj.has_next %}<a
-      href="?page={{ page_obj.next_page_number }}&search={{ search }}"
-      >Next →</a
-    >{% endif %}
+    {%if page_obj.has_previous %}<a
+      href="?page={{page_obj.previous_page_number }}&search={{search }}">← Prev</a>{%endif %} {%for num in page_obj.paginator.page_range %}{%if page_obj.number == num %}<span class="current">{{num }}</span>{%elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}<a
+      href="?page={{num }}&search={{search }}">{{num }}</a>{%endif %}{%endfor %} {%if page_obj.has_next %}<a
+      href="?page={{page_obj.next_page_number }}&search={{search }}">Next →</a>{%endif %}
   </div>
-  {% endif %} {% else %}
+  {%endif %} {%else %}
   <div class="empty-state">
     <h3>No guardians found</h3>
-    <a href="{% url 'guardian_create' %}" class="btn btn-primary mt-10"
-      >+ Create Guardian</a
-    >
+    <a href="{%url 'guardian_create' %}" class="btn btn-primary mt-10">+ Create Guardian</a>
   </div>
-  {% endif %}
+  {%endif %}
 </div>
-{% endblock %}
+{%endblock %}

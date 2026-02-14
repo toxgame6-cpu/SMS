@@ -1,32 +1,28 @@
-{% extends 'layouts/base.html' %} {% block title %}{{ staff_user.full_name }} -
-SMS Portal{% endblock %} {% block breadcrumb %}Admin > {{ staff_type_label }}s >
-{{ staff_user.full_name }}{% endblock %} {% block content %}
+{%extends 'layouts/base.html' %} {%block title %}{{staff_user.full_name }} -
+SMS Portal{%endblock %} {%block breadcrumb %}Admin > {{staff_type_label }}s >
+{{staff_user.full_name }}{%endblock %} {%block content %}
 <div class="page-header flex-between">
   <div>
-    <h1>👤 {{ staff_user.full_name }}</h1>
-    <p>{{ staff_type_label }} Details</p>
+    <h1>👤 {{staff_user.full_name }}</h1>
+    <p>{{staff_type_label }} Details</p>
   </div>
   <div>
     <a
-      href="{% url staff_type|add:'_edit' pk=staff_user.pk %}"
-      class="btn btn-warning"
-      >✏️ Edit</a
-    >
-    <a href="{% url staff_type|add:'_list' %}" class="btn btn-secondary"
-      >← Back</a
-    >
+      href="{%url staff_type|add:'_edit' pk=staff_user.pk %}"
+      class="btn btn-warning">✏️ Edit</a>
+    <a href="{%url staff_type|add:'_list' %}" class="btn btn-secondary">← Back</a>
   </div>
 </div>
 
 <div class="card" style="max-width: 600px">
   <div style="text-align: center; margin-bottom: 20px">
-    {% if staff_user.photo %}
+    {%if staff_user.photo %}
     <img
-      src="{{ staff_user.photo.url }}"
+      src="{{staff_user.photo.url }}"
       alt="Photo"
       style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover"
     />
-    {% else %}
+    {%else %}
     <div
       style="
         width: 80px;
@@ -39,48 +35,47 @@ SMS Portal{% endblock %} {% block breadcrumb %}Admin > {{ staff_type_label }}s >
         justify-content: center;
         font-size: 28px;
         font-weight: 700;
-      "
-    >
-      {{ staff_user.initials }}
+      ">
+      {{staff_user.initials }}
     </div>
-    {% endif %}
+    {%endif %}
   </div>
 
   <table>
     <tr>
       <td style="font-weight: 600; width: 150px">Full Name</td>
-      <td>{{ staff_user.full_name }}</td>
+      <td>{{staff_user.full_name }}</td>
     </tr>
     <tr>
       <td style="font-weight: 600">Username</td>
-      <td>{{ staff_user.username }}</td>
+      <td>{{staff_user.username }}</td>
     </tr>
     <tr>
       <td style="font-weight: 600">Email</td>
-      <td>{{ staff_user.email }}</td>
+      <td>{{staff_user.email }}</td>
     </tr>
     <tr>
       <td style="font-weight: 600">Phone</td>
-      <td>{{ staff_user.phone|default:"-" }}</td>
+      <td>{{staff_user.phone|default:"-" }}</td>
     </tr>
     <tr>
       <td style="font-weight: 600">Department</td>
-      <td>{{ staff_user.department|default:"-" }}</td>
+      <td>{{staff_user.department|default:"-" }}</td>
     </tr>
     <tr>
       <td style="font-weight: 600">Role</td>
       <td>
-        <span class="badge badge-info">{{ staff_user.get_role_display }}</span>
+        <span class="badge badge-info">{{staff_user.get_role_display }}</span>
       </td>
     </tr>
     <tr>
       <td style="font-weight: 600">Created</td>
-      <td>{{ staff_user.created_at|date:"d M Y, h:i A" }}</td>
+      <td>{{staff_user.created_at|date:"d M Y, h:i A" }}</td>
     </tr>
     <tr>
       <td style="font-weight: 600">Last Login</td>
-      <td>{{ staff_user.last_login|date:"d M Y, h:i A"|default:"Never" }}</td>
+      <td>{{staff_user.last_login|date:"d M Y, h:i A"|default:"Never" }}</td>
     </tr>
   </table>
 </div>
-{% endblock %}
+{%endblock %}

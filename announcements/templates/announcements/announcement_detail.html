@@ -1,136 +1,69 @@
-{% extends 'layouts/base.html' %} {% block title %}{{ announcement.title }} -
-SMS Portal{% endblock %} {% block breadcrumb %}Announcements > {{
-announcement.title|truncatewords:5 }}{% endblock %} {% block content %}
+{%extends 'layouts/base.html' %}
+{%block title %}{{announcement.title }} - SMS Portal{%endblock %}
+{%block breadcrumb %}Announcements > {{announcement.title|truncatewords:5 }}{%endblock %}
+{%block content %}
 <div class="page-header flex-between">
-  <div>
-    <a
-      href="{% url 'announcement_list' %}"
-      style="font-size: 13px; color: #4f46e5; text-decoration: none"
-      >← Back to Announcements</a
-    >
-  </div>
-  <div>
-    {% if request.user.role == 'admin' or request.user ==
-    announcement.created_by %}
-    <a
-      href="{% url 'announcement_edit' pk=announcement.pk %}"
-      class="btn btn-warning btn-sm"
-      >✏️ Edit</a
-    >
-    <form
-      method="POST"
-      action="{% url 'announcement_delete' pk=announcement.pk %}"
-      style="display: inline"
-      onsubmit="return confirm('Delete this announcement?');"
-    >
-      {% csrf_token %}
-      <button type="submit" class="btn btn-danger btn-sm">🗑 Delete</button>
-    </form>
-    {% endif %}
-  </div>
+    <div>
+        <a href="{%url 'announcement_list' %}" style="font-size: 13px; color: #4f46e5; text-decoration: none;">← Back to Announcements</a>
+    </div>
+    <div>
+        {%if request.user.role == 'admin' or request.user == announcement.created_by %}
+        <a href="{%url 'announcement_edit' pk=announcement.pk %}" class="btn btn-warning btn-sm">✏️ Edit</a>
+        <form method="POST" action="{%url 'announcement_delete' pk=announcement.pk %}" style="display: inline;" onsubmit="return confirm('Delete this announcement?');">
+            {%csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm">🗑 Delete</button>
+        </form>
+        {%endif %}
+    </div>
 </div>
 
-<div class="card" style="max-width: 800px">
-  <!-- Badges -->
-  <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px">
-    {% if announcement.is_pinned %}
-    <span class="badge badge-warning">📌 Pinned</span>
-    {% endif %}
-    <span
-      class="badge"
-      style="background: {% if announcement.category == 'general' %}#dbeafe{% elif announcement.category == 'exam' %}#fef3c7{% elif announcement.category == 'holiday' %}#dcfce7{% elif announcement.category == 'event' %}#f3e8ff{% elif announcement.category == 'urgent' %}#fee2e2{% else %}#e0e7ff{% endif %}; color: {% if announcement.category == 'general' %}#1d4ed8{% elif announcement.category == 'exam' %}#92400e{% elif announcement.category == 'holiday' %}#15803d{% elif announcement.category == 'event' %}#7c3aed{% elif announcement.category == 'urgent' %}#dc2626{% else %}#4338ca{% endif %};"
-    >
-      {{ announcement.category_emoji }} {{ announcement.get_category_display }}
-    </span>
-    <span
-      class="badge"
-      style="background: {{ announcement.priority_color }}20; color: {{ announcement.priority_color }};"
-    >
-      Priority: {{ announcement.get_priority_display }}
-    </span>
-    <span class="badge badge-gray">
-      👁 {{ announcement.get_visibility_display }}
-    </span>
-  </div>
+<div class="card" style="max-width: 800px;">
+    <!-- Badges -->
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px;">
+        {%if announcement.is_pinned %}
+        <span class="badge badge-warning">📌 Pinned</span>
+        {%endif %}
+        <span class="badge" style="background: {%if announcement.category == 'general' %}#dbeafe{%elif announcement.category == 'exam' %}#fef3c7{%elif announcement.category == 'holiday' %}#dcfce7{%elif announcement.category == 'event' %}#f3e8ff{%elif announcement.category == 'urgent' %}#fee2e2{%else %}#e0e7ff{%endif %}; color: {%if announcement.category == 'general' %}#1d4ed8{%elif announcement.category == 'exam' %}#92400e{%elif announcement.category == 'holiday' %}#15803d{%elif announcement.category == 'event' %}#7c3aed{%elif announcement.category == 'urgent' %}#dc2626{%else %}#4338ca{%endif %};">
+            {{announcement.category_emoji }} {{announcement.get_category_display }}
+        </span>
+        <span class="badge" style="background: {{announcement.priority_color }}20; color: {{announcement.priority_color }};">
+            Priority: {{announcement.get_priority_display }}
+        </span>
+        <span class="badge badge-gray">👁 {{announcement.get_visibility_display }}</span>
+    </div>
 
-  <!-- Title -->
-  <h1 style="font-size: 24px; font-weight: 800; margin-bottom: 10px">
-    {{ announcement.title }}
-  </h1>
+    <!-- Title -->
+    <h1 style="font-size: 24px; font-weight: 800; margin-bottom: 10px;">{{announcement.title }}</h1>
 
-  <!-- Meta -->
-  <div
-    style="
-      font-size: 13px;
-      color: #94a3b8;
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid #f1f5f9;
-    "
-  >
-    Posted by
-    <strong style="color: #475569"
-      >{{ announcement.created_by.full_name }}</strong
-    >
-    ({{ announcement.created_by.get_role_display }}) • {{
-    announcement.created_at|date:"d M Y, h:i A" }} {% if announcement.updated_at
-    != announcement.created_at %} • Updated {{ announcement.updated_at|date:"d M
-    Y, h:i A" }} {% endif %} {% if announcement.expires_at %} • Expires: {{
-    announcement.expires_at|date:"d M Y, h:i A" }} {% endif %}
-  </div>
+    <!-- Meta -->
+    <div style="font-size: 13px; color: #94a3b8; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #f1f5f9;">
+        Posted by <strong style="color: #475569;">{{announcement.created_by.full_name }}</strong>
+        ({{announcement.created_by.get_role_display }}) • {{announcement.created_at|date:"d M Y, h:i A" }}
+        {%if announcement.updated_at != announcement.created_at %}
+        • Updated {{announcement.updated_at|date:"d M Y, h:i A" }}
+        {%endif %}
+        {%if announcement.expires_at %}
+        • Expires: {{announcement.expires_at|date:"d M Y, h:i A" }}
+        {%endif %}
+    </div>
 
-  <!-- Content -->
-  <div
-    style="
-      font-size: 15px;
-      line-height: 1.8;
-      color: #1e293b;
-      white-space: pre-wrap;
-    "
-  >
-    {{ announcement.content }}
-  </div>
+    <!-- Content -->
+    <div style="font-size: 15px; line-height: 1.8; color: #1e293b; white-space: pre-wrap;">{{announcement.content }}</div>
 
-  <!-- Attachment -->
-  {% if announcement.attachment %}
-  <div
-    style="
-      margin-top: 25px;
-      padding: 15px;
-      background: #f8fafc;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-    "
-  >
-    <h4 style="font-size: 13px; color: #64748b; margin-bottom: 8px">
-      📎 Attachment
-    </h4>
-    <a
-      href="{{ announcement.attachment.url }}"
-      target="_blank"
-      class="btn btn-secondary btn-sm"
-      download
-    >
-      📥 Download {{ announcement.attachment_name|default:"Attachment" }}
-    </a>
-    <span style="font-size: 12px; color: #94a3b8; margin-left: 10px">
-      {{ announcement.attachment.name }}
-    </span>
-  </div>
-  {% endif %}
+    <!-- Attachment -->
+    {%if announcement.attachment %}
+    <div style="margin-top: 25px; padding: 15px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+        <h4 style="font-size: 13px; color: #64748b; margin-bottom: 8px;">📎 Attachment</h4>
+        <a href="{{announcement.attachment.url }}" target="_blank" class="btn btn-secondary btn-sm" download>
+            📥 Download {{announcement.attachment_name|default:"Attachment" }}
+        </a>
+        <span style="font-size: 12px; color: #94a3b8; margin-left: 10px;">{{announcement.attachment.name }}</span>
+    </div>
+    {%endif %}
 
-  <!-- Read count -->
-  <div
-    style="
-      margin-top: 25px;
-      padding-top: 15px;
-      border-top: 1px solid #f1f5f9;
-      font-size: 12px;
-      color: #94a3b8;
-    "
-  >
-    👁 Read by {{ announcement.reads.count }} user{{
-    announcement.reads.count|pluralize }}
-  </div>
+    <!-- Read count -->
+    <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid #f1f5f9; font-size: 12px; color: #94a3b8;">
+        👁 Read by {{announcement.reads.count }} user{{announcement.reads.count|pluralize }}
+    </div>
 </div>
-{% endblock %}
+{%endblock %}

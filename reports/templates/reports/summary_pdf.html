@@ -88,7 +88,7 @@
     <div class="header">
       <h1>Student Management System</h1>
       <p>
-        Summary Report | Generated on {{ generated_at|date:"d M Y, h:i A" }}
+        Summary Report | Generated on {{generated_at|date:"d M Y, h:i A" }}
       </p>
     </div>
 
@@ -98,25 +98,25 @@
       <table>
         <tr>
           <td style="font-weight: bold; width: 200px">Total Students</td>
-          <td>{{ summary.total_students }}</td>
+          <td>{{summary.total_students }}</td>
           <td style="font-weight: bold; width: 200px">Total Files</td>
-          <td>{{ summary.total_files }}</td>
+          <td>{{summary.total_files }}</td>
         </tr>
         <tr>
           <td style="font-weight: bold">Total Teachers</td>
-          <td>{{ summary.total_teachers }}</td>
+          <td>{{summary.total_teachers }}</td>
           <td style="font-weight: bold">Total Guardians</td>
-          <td>{{ summary.total_guardians }}</td>
+          <td>{{summary.total_guardians }}</td>
         </tr>
         <tr>
           <td style="font-weight: bold">Total HODs</td>
-          <td>{{ summary.total_hods }}</td>
+          <td>{{summary.total_hods }}</td>
           <td style="font-weight: bold">Pending Requests</td>
-          <td>{{ summary.pending_notifications }}</td>
+          <td>{{summary.pending_notifications }}</td>
         </tr>
         <tr>
           <td style="font-weight: bold">Announcements</td>
-          <td>{{ summary.total_announcements }}</td>
+          <td>{{summary.total_announcements }}</td>
           <td></td>
           <td></td>
         </tr>
@@ -134,16 +134,16 @@
           </tr>
         </thead>
         <tbody>
-          {% for item in class_wise %}
+          {%for item in class_wise %}
           <tr>
-            <td>{{ item.class_name }}</td>
-            <td>{{ item.count }}</td>
+            <td>{{item.class_name }}</td>
+            <td>{{item.count }}</td>
           </tr>
-          {% empty %}
+          {%empty %}
           <tr>
             <td colspan="2">No data available</td>
           </tr>
-          {% endfor %}
+          {%endfor %}
         </tbody>
       </table>
     </div>
@@ -159,16 +159,16 @@
           </tr>
         </thead>
         <tbody>
-          {% for item in division_wise %}
+          {%for item in division_wise %}
           <tr>
-            <td>Division {{ item.division }}</td>
-            <td>{{ item.count }}</td>
+            <td>Division {{item.division }}</td>
+            <td>{{item.count }}</td>
           </tr>
-          {% empty %}
+          {%empty %}
           <tr>
             <td colspan="2">No data available</td>
           </tr>
-          {% endfor %}
+          {%endfor %}
         </tbody>
       </table>
     </div>
@@ -184,16 +184,16 @@
           </tr>
         </thead>
         <tbody>
-          {% for item in year_wise %}
+          {%for item in year_wise %}
           <tr>
-            <td>{{ item.year }}</td>
-            <td>{{ item.count }}</td>
+            <td>{{item.year }}</td>
+            <td>{{item.count }}</td>
           </tr>
-          {% empty %}
+          {%empty %}
           <tr>
             <td colspan="2">No data available</td>
           </tr>
-          {% endfor %}
+          {%endfor %}
         </tbody>
       </table>
     </div>
@@ -210,17 +210,17 @@
           </tr>
         </thead>
         <tbody>
-          {% for item in staff_by_dept %}
+          {%for item in staff_by_dept %}
           <tr>
-            <td>{{ item.department }}</td>
-            <td>{{ item.role }}</td>
-            <td>{{ item.count }}</td>
+            <td>{{item.department }}</td>
+            <td>{{item.role }}</td>
+            <td>{{item.count }}</td>
           </tr>
-          {% empty %}
+          {%empty %}
           <tr>
             <td colspan="3">No data available</td>
           </tr>
-          {% endfor %}
+          {%endfor %}
         </tbody>
       </table>
     </div>
@@ -240,20 +240,20 @@
           </tr>
         </thead>
         <tbody>
-          {% for file in recent_files %}
+          {%for file in recent_files %}
           <tr>
-            <td>{{ file.file_name }}</td>
-            <td>{{ file.class_name }}</td>
-            <td>{{ file.division }}</td>
-            <td>{{ file.year }}</td>
-            <td>{{ file.total_students }}</td>
-            <td>{{ file.upload_date|date:"d M Y" }}</td>
+            <td>{{file.file_name }}</td>
+            <td>{{file.class_name }}</td>
+            <td>{{file.division }}</td>
+            <td>{{file.year }}</td>
+            <td>{{file.total_students }}</td>
+            <td>{{file.upload_date|date:"d M Y" }}</td>
           </tr>
-          {% empty %}
+          {%empty %}
           <tr>
             <td colspan="6">No files uploaded</td>
           </tr>
-          {% endfor %}
+          {%endfor %}
         </tbody>
       </table>
     </div>

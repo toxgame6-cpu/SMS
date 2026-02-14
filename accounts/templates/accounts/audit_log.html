@@ -1,10 +1,7 @@
-{% extends 'layouts/base.html' %}
-
-{% block title %}Audit Log - SMS Portal{% endblock %}
-
-{% block breadcrumb %}Admin > Audit Log{% endblock %}
-
-{% block content %}
+{%extends 'layouts/base.html' %}
+{%block title %}Audit Log - SMS Portal{%endblock %}
+{%block breadcrumb %}Admin > Audit Log{%endblock %}
+{%block content %}
 <div class="page-header flex-between">
     <div>
         <h1>📊 Audit Log</h1>
@@ -17,16 +14,16 @@
     <form method="GET" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;">
         <div class="form-group" style="margin-bottom: 0; min-width: 180px;">
             <label>Search</label>
-            <input type="text" name="search" class="form-input" placeholder="Search details..." value="{{ search }}">
+            <input type="text" name="search" class="form-input" placeholder="Search details..." value="{{search }}">
         </div>
 
         <div class="form-group" style="margin-bottom: 0; min-width: 160px;">
             <label>Action Type</label>
             <select name="action" class="form-input">
                 <option value="">All Actions</option>
-                {% for value, label in action_choices %}
-                    <option value="{{ value }}" {% if action_filter == value %}selected{% endif %}>{{ label }}</option>
-                {% endfor %}
+                {%for value, label in action_choices %}
+                <option value="{{value }}" {%if action_filter == value %}selected{%endif %}>{{label }}</option>
+                {%endfor %}
             </select>
         </div>
 
@@ -34,25 +31,25 @@
             <label>User</label>
             <select name="user" class="form-input">
                 <option value="">All Users</option>
-                {% for u in users %}
-                    <option value="{{ u.pk }}" {% if user_filter == u.pk|stringformat:"d" %}selected="selected"{% endif %}>
-                {% endfor %}
+                {%for u in users %}
+                <option value="{{u.pk }}" {%if user_filter == u.pk|stringformat:"d" %}selected="selected"{%endif %}>{{u.full_name }} ({{u.get_role_display }})</option>
+                {%endfor %}
             </select>
         </div>
 
         <div class="form-group" style="margin-bottom: 0; min-width: 140px;">
             <label>From Date</label>
-            <input type="date" name="date_from" class="form-input" value="{{ date_from }}">
+            <input type="date" name="date_from" class="form-input" value="{{date_from }}">
         </div>
 
         <div class="form-group" style="margin-bottom: 0; min-width: 140px;">
             <label>To Date</label>
-            <input type="date" name="date_to" class="form-input" value="{{ date_to }}">
+            <input type="date" name="date_to" class="form-input" value="{{date_to }}">
         </div>
 
         <div style="display: flex; gap: 8px;">
             <button type="submit" class="btn btn-primary btn-sm">🔍 Filter</button>
-            <a href="{% url 'audit_log' %}" class="btn btn-secondary btn-sm">↺ Reset</a>
+            <a href="{%url 'audit_log' %}" class="btn btn-secondary btn-sm">↺ Reset</a>
         </div>
     </form>
 </div>
@@ -60,10 +57,10 @@
 <!-- Log Table -->
 <div class="card">
     <div class="card-header">
-        <h3>📋 Activity Log ({{ page_obj.paginator.count }} entries)</h3>
+        <h3>📋 Activity Log ({{page_obj.paginator.count }} entries)</h3>
     </div>
 
-    {% if page_obj.object_list %}
+    {%if page_obj.object_list %}
     <table>
         <thead>
             <tr>
@@ -75,57 +72,61 @@
             </tr>
         </thead>
         <tbody>
-            {% for log in page_obj %}
+            {%for log in page_obj %}
             <tr>
                 <td style="white-space: nowrap; font-size: 12px; color: #64748b;">
-                    {{ log.timestamp|date:"d M Y" }}<br>
-                    {{ log.timestamp|date:"h:i:s A" }}
+                    {{log.timestamp|date:"d M Y" }}<br>
+                    {{log.timestamp|date:"h:i:s A" }}
                 </td>
                 <td>
-                    {% if log.user %}
-                        <strong>{{ log.user.full_name }}</strong>
-                        <br><span style="font-size: 11px; color: #94a3b8;">{{ log.user.get_role_display }}</span>
-                    {% else %}
-                        <span style="color: #94a3b8;">Unknown</span>
-                    {% endif %}
+                    {%if log.user %}
+                    <strong>{{log.user.full_name }}</strong>
+                    <br><span style="font-size: 11px; color: #94a3b8;">{{log.user.get_role_display }}</span>
+                    {%else %}
+                    <span style="color: #94a3b8;">Unknown</span>
+                    {%endif %}
                 </td>
                 <td>
-                    <span class="badge {% if 'login' in log.action %}badge-info{% elif 'delete' in log.action %}badge-danger{% elif 'create' in log.action %}badge-success{% elif 'edit' in log.action %}badge-warning{% else %}badge-gray{% endif %}">
-                        {% if log.action == 'login' %}🔓{% elif log.action == 'logout' %}🚪{% elif log.action == 'login_failed' %}❌{% elif 'create' in log.action %}➕{% elif 'edit' in log.action %}✏️{% elif 'delete' in log.action %}🗑️{% elif log.action == 'mark_edit' %}🚩{% elif log.action == 'resolve_edit' %}✅{% elif log.action == 'permission_change' %}🔐{% elif log.action == 'password_change' %}🔑{% else %}📋{% endif %}
-                        {{ log.get_action_display }}
+                    <span class="badge {%if 'login' in log.action %}badge-info{%elif 'delete' in log.action %}badge-danger{%elif 'create' in log.action %}badge-success{%elif 'edit' in log.action %}badge-warning{%else %}badge-gray{%endif %}">
+                        {%if log.action == 'login' %}🔓{%elif log.action == 'logout' %}🚪{%elif log.action == 'login_failed' %}❌{%elif 'create' in log.action %}➕{%elif 'edit' in log.action %}✏️{%elif 'delete' in log.action %}🗑️{%elif log.action == 'mark_edit' %}🚩{%elif log.action == 'resolve_edit' %}✅{%elif log.action == 'permission_change' %}🔐{%elif log.action == 'password_change' %}🔑{%else %}📋{%endif %}
+                        {{log.get_action_display }}
                     </span>
                 </td>
                 <td style="font-size: 13px; max-width: 300px; word-wrap: break-word;">
-                    {{ log.details|default:"-" }}
+                    {{log.details|default:"-" }}
                 </td>
                 <td style="font-size: 12px; color: #94a3b8;">
-                    {{ log.ip_address|default:"-" }}
+                    {{log.ip_address|default:"-" }}
                 </td>
             </tr>
-            {% endfor %}
+            {%endfor %}
         </tbody>
     </table>
 
-    {% if page_obj.has_other_pages %}
+    {%if page_obj.has_other_pages %}
     <div class="pagination">
-        {% if page_obj.has_previous %}<a href="?page={{ page_obj.previous_page_number }}&action={{ action_filter }}&user={{ user_filter }}&date_from={{ date_from }}&date_to={{ date_to }}&search={{ search }}">← Prev</a>{% endif %}
-        {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-                <span class="current">{{ num }}</span>
-            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <a href="?page={{ num }}&action={{ action_filter }}&user={{ user_filter }}&date_from={{ date_from }}&date_to={{ date_to }}&search={{ search }}">{{ num }}</a>
-            {% endif %}
-        {% endfor %}
-        {% if page_obj.has_next %}<a href="?page={{ page_obj.next_page_number }}&action={{ action_filter }}&user={{ user_filter }}&date_from={{ date_from }}&date_to={{ date_to }}&search={{ search }}">Next →</a>{% endif %}
+        {%if page_obj.has_previous %}
+        <a href="?page={{page_obj.previous_page_number }}&action={{action_filter }}&user={{user_filter }}&date_from={{date_from }}&date_to={{date_to }}&search={{search }}">← Prev</a>
+        {%endif %}
+        {%for num in page_obj.paginator.page_range %}
+            {%if page_obj.number == num %}
+            <span class="current">{{num }}</span>
+            {%elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a href="?page={{num }}&action={{action_filter }}&user={{user_filter }}&date_from={{date_from }}&date_to={{date_to }}&search={{search }}">{{num }}</a>
+            {%endif %}
+        {%endfor %}
+        {%if page_obj.has_next %}
+        <a href="?page={{page_obj.next_page_number }}&action={{action_filter }}&user={{user_filter }}&date_from={{date_from }}&date_to={{date_to }}&search={{search }}">Next →</a>
+        {%endif %}
     </div>
-    {% endif %}
+    {%endif %}
 
-    {% else %}
+    {%else %}
     <div class="empty-state">
         <h3>No log entries found</h3>
         <p>No activity matches your filters.</p>
     </div>
-    {% endif %}
+    {%endif %}
 </div>
 
 <!-- Recent Login Attempts -->
@@ -134,7 +135,7 @@
         <h3>🔐 Recent Login Attempts</h3>
     </div>
 
-    {% if recent_logins %}
+    {%if recent_logins %}
     <table>
         <thead>
             <tr>
@@ -145,24 +146,24 @@
             </tr>
         </thead>
         <tbody>
-            {% for attempt in recent_logins %}
+            {%for attempt in recent_logins %}
             <tr>
-                <td style="font-size: 12px; color: #64748b;">{{ attempt.timestamp|date:"d M Y, h:i A" }}</td>
-                <td><strong>{{ attempt.username }}</strong></td>
+                <td style="font-size: 12px; color: #64748b;">{{attempt.timestamp|date:"d M Y, h:i A" }}</td>
+                <td><strong>{{attempt.username }}</strong></td>
                 <td>
-                    {% if attempt.success %}
-                        <span class="badge badge-success">✅ Success</span>
-                    {% else %}
-                        <span class="badge badge-danger">❌ Failed</span>
-                    {% endif %}
+                    {%if attempt.success %}
+                    <span class="badge badge-success">✅ Success</span>
+                    {%else %}
+                    <span class="badge badge-danger">❌ Failed</span>
+                    {%endif %}
                 </td>
-                <td style="font-size: 12px; color: #94a3b8;">{{ attempt.ip_address }}</td>
+                <td style="font-size: 12px; color: #94a3b8;">{{attempt.ip_address }}</td>
             </tr>
-            {% endfor %}
+            {%endfor %}
         </tbody>
     </table>
-    {% else %}
+    {%else %}
     <p style="color: #94a3b8; text-align: center; padding: 20px;">No login attempts recorded.</p>
-    {% endif %}
+    {%endif %}
 </div>
-{% endblock %}
+{%endblock %}

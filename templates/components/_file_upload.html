@@ -9,20 +9,19 @@
     background: #f9fafb;
     cursor: pointer;
     transition: all 0.2s;
-  "
->
+  ">
   <div style="font-size: 36px; margin-bottom: 10px">📤</div>
   <p style="font-weight: 600; color: #374151">
-    {{ title|default:"Drop file here or click to browse" }}
+    {{title|default:"Drop file here or click to browse" }}
   </p>
   <p style="font-size: 12px; color: #94a3b8; margin-top: 5px">
-    {{ hint|default:"Supported formats: Excel (.xlsx, .xls)" }}
+    {{hint|default:"Supported formats: Excel (.xlsx, .xls)" }}
   </p>
   <input
     type="file"
-    name="{{ field_name|default:'file' }}"
+    name="{{field_name|default:'file' }}"
     id="fileInput"
-    accept="{{ accept|default:'.xlsx,.xls' }}"
+    accept="{{accept|default:'.xlsx,.xls' }}"
     style="display: none"
     onchange="handleFileSelect(this)"
   />
@@ -37,8 +36,7 @@
     border-radius: 8px;
     font-size: 13px;
     color: #16a34a;
-  "
->
+  ">
   📎 <span id="fileName"></span>
 </div>
 

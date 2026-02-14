@@ -1,6 +1,4 @@
-{% extends 'layouts/base.html' %} {% block title %}Upload Excel - SMS Portal{%
-endblock %} {% block breadcrumb %}Admin > Upload Excel{% endblock %} {% block
-content %}
+{%extends 'layouts/base.html' %} {%block title %}Upload Excel - SMS Portal{%endblock %} {%block breadcrumb %}Admin > Upload Excel{%endblock %} {%block content %}
 <div class="page-header">
   <h1>📤 Upload Student Excel File</h1>
   <p>Upload an Excel file with student information</p>
@@ -8,7 +6,7 @@ content %}
 
 <div class="card" style="max-width: 600px">
   <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %} {% if form.errors %}
+    {%csrf_token %} {%if form.errors %}
     <div
       style="
         background: #fee2e2;
@@ -17,33 +15,32 @@ content %}
         border-radius: 8px;
         font-size: 13px;
         margin-bottom: 16px;
-      "
-    >
-      {% for field, errors in form.errors.items %} {% for error in errors %}
-      <p>{{ field }}: {{ error }}</p>
-      {% endfor %} {% endfor %}
+      ">
+      {%for field, errors in form.errors.items %} {%for error in errors %}
+      <p>{{field }}: {{error }}</p>
+      {%endfor %} {%endfor %}
     </div>
-    {% endif %}
+    {%endif %}
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px">
       <div class="form-group">
         <label>Class / Course *</label>
-        {{ form.class_name }}
+        {{form.class_name }}
       </div>
       <div class="form-group">
         <label>Division *</label>
-        {{ form.division }}
+        {{form.division }}
       </div>
     </div>
 
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px">
       <div class="form-group">
         <label>Year *</label>
-        {{ form.year }}
+        {{form.year }}
       </div>
       <div class="form-group">
         <label>Academic Year *</label>
-        {{ form.academic_year }}
+        {{form.academic_year }}
       </div>
     </div>
 
@@ -56,9 +53,8 @@ content %}
           padding: 30px;
           text-align: center;
           background: #f9fafb;
-        "
-      >
-        {{ form.excel_file }}
+        ">
+        {{form.excel_file }}
         <p style="margin-top: 10px; font-size: 12px; color: #94a3b8">
           Max file size: 10MB. Supported: .xlsx, .xls
         </p>
@@ -72,17 +68,14 @@ content %}
         border-radius: 8px;
         padding: 12px;
         margin-bottom: 20px;
-      "
-    >
+      ">
       <p style="font-size: 13px; color: #0369a1">
         <strong>📋 Excel Format:</strong>
       </p>
       <p style="font-size: 12px; color: #0369a1; margin-top: 5px">
         Your Excel file should have these columns in the header row:<br />
-        <strong
-          >Roll No, PRN, Name/Full Name, Phone, Email, Parent Name, Parent
-          Phone, Address</strong
-        >
+        <strong>Roll No, PRN, Name/Full Name, Phone, Email, Parent Name, Parent
+          Phone, Address</strong>
       </p>
     </div>
 
@@ -92,11 +85,10 @@ content %}
         margin-top: 20px;
         padding-top: 15px;
         border-top: 1px solid #f1f5f9;
-      "
-    >
+      ">
       <a href="javascript:history.back()" class="btn btn-secondary">← Back</a>
       <button type="submit" class="btn btn-primary">📤 Upload & Save</button>
     </div>
   </form>
 </div>
-{% endblock %}
+{%endblock %}

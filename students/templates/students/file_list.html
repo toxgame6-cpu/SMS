@@ -1,18 +1,16 @@
-{% extends 'layouts/base.html' %} {% block title %}Student Files - SMS Portal{%
-endblock %} {% block breadcrumb %}{{ request.user.get_role_display }} > Student
-Files{% endblock %} {% block content %}
+{%extends 'layouts/base.html' %} {%block title %}Student Files - SMS Portal{%endblock %} {%block breadcrumb %}{{request.user.get_role_display }} > Student
+Files{%endblock %} {%block content %}
 <div class="page-header flex-between">
   <div>
     <h1>📁 Student Files</h1>
     <p>
-      {% if request.user.role == 'admin' %}All uploaded student files{% elif
-      request.user.role == 'hod' %}All student files{% else %}Your assigned
-      student files{% endif %}
+      {%if request.user.role == 'admin' %}All uploaded student files{%elif request.user.role == 'hod' %}All student files{%else %}Your assigned
+      student files{%endif %}
     </p>
   </div>
-  {% if request.user.role == 'admin' %}
-  <a href="{% url 'upload_excel' %}" class="btn btn-primary">📤 Upload New</a>
-  {% endif %}
+  {%if request.user.role == 'admin' %}
+  <a href="{%url 'upload_excel' %}" class="btn btn-primary">📤 Upload New</a>
+  {%endif %}
 </div>
 
 <div class="card">
@@ -21,22 +19,22 @@ Files{% endblock %} {% block content %}
       type="text"
       name="search"
       placeholder="Search files..."
-      value="{{ search }}"
+      value="{{search }}"
     />
-    {% if years %}
+    {%if years %}
     <select name="year" onchange="this.form.submit()">
       <option value="">All Years</option>
-      {% for y in years %}
-      <option value="{{ y }}" {% if y="" ="selected_year" %}selected{% endif %}>
-        {{ y }}
+      {%for y in years %}
+      <option value="{{y }}" {%if y == selected_year %}selected{%endif %}>
+        {{y }}
       </option>
-      {% endfor %}
+      {%endfor %}
     </select>
-    {% endif %}
+    {%endif %}
     <button type="submit" class="btn btn-secondary btn-sm">Search</button>
   </form>
 
-  {% if page_obj.object_list %}
+  {%if page_obj.object_list %}
   <table>
     <thead>
       <tr>
@@ -52,72 +50,57 @@ Files{% endblock %} {% block content %}
       </tr>
     </thead>
     <tbody>
-      {% for file in page_obj %}
+      {%for file in page_obj %}
       <tr>
-        <td>{{ forloop.counter }}</td>
-        <td><strong>{{ file.file_name }}</strong></td>
-        <td>{{ file.class_name }}</td>
-        <td>{{ file.division }}</td>
-        <td>{{ file.year }}</td>
-        <td>{{ file.academic_year }}</td>
-        <td><span class="badge badge-info">{{ file.total_students }}</span></td>
-        <td>{{ file.upload_date|date:"d M Y" }}</td>
+        <td>{{forloop.counter }}</td>
+        <td><strong>{{file.file_name }}</strong></td>
+        <td>{{file.class_name }}</td>
+        <td>{{file.division }}</td>
+        <td>{{file.year }}</td>
+        <td>{{file.academic_year }}</td>
+        <td><span class="badge badge-info">{{file.total_students }}</span></td>
+        <td>{{file.upload_date|date:"d M Y" }}</td>
         <td class="actions">
           <a
-            href="{% url 'student_list' file_id=file.pk %}"
-            class="btn btn-primary btn-sm"
-            >👁 View</a
-          >
+            href="{%url 'student_list' file_id=file.pk %}"
+            class="btn btn-primary btn-sm">👁 View</a>
           <a
-            href="{% url 'file_download' file_id=file.pk %}"
-            class="btn btn-success btn-sm"
-            >📥</a
-          >
-          {% if request.user.role == 'admin' %}
+            href="{%url 'file_download' file_id=file.pk %}"
+            class="btn btn-success btn-sm">📥</a>
+          {%if request.user.role == 'admin' %}
           <form
             method="POST"
-            action="{% url 'file_delete' file_id=file.pk %}"
+            action="{%url 'file_delete' file_id=file.pk %}"
             style="display: inline"
-            onsubmit="return confirm('Delete this file and all its students?');"
-          >
-            {% csrf_token %}
+            onsubmit="return confirm('Delete this file and all its students?');">
+            {%csrf_token %}
             <button type="submit" class="btn btn-danger btn-sm">🗑</button>
           </form>
-          {% endif %}
+          {%endif %}
         </td>
       </tr>
-      {% endfor %}
+      {%endfor %}
     </tbody>
   </table>
 
-  {% if page_obj.has_other_pages %}
+  {%if page_obj.has_other_pages %}
   <div class="pagination">
-    {% if page_obj.has_previous %}<a
-      href="?page={{ page_obj.previous_page_number }}&search={{ search }}&year={{ selected_year }}"
-      >← Prev</a
-    >{% endif %} {% for num in page_obj.paginator.page_range %}{% if
-    page_obj.number == num %}<span class="current">{{ num }}</span>{% elif num >
-    page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}<a
-      href="?page={{ num }}&search={{ search }}&year={{ selected_year }}"
-      >{{ num }}</a
-    >{% endif %}{% endfor %} {% if page_obj.has_next %}<a
-      href="?page={{ page_obj.next_page_number }}&search={{ search }}&year={{ selected_year }}"
-      >Next →</a
-    >{% endif %}
+    {%if page_obj.has_previous %}<a
+      href="?page={{page_obj.previous_page_number }}&search={{search }}&year={{selected_year }}">← Prev</a>{%endif %} {%for num in page_obj.paginator.page_range %}{%if page_obj.number == num %}<span class="current">{{num }}</span>{%elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}<a
+      href="?page={{num }}&search={{search }}&year={{selected_year }}">{{num }}</a>{%endif %}{%endfor %} {%if page_obj.has_next %}<a
+      href="?page={{page_obj.next_page_number }}&search={{search }}&year={{selected_year }}">Next →</a>{%endif %}
   </div>
-  {% endif %} {% else %}
+  {%endif %} {%else %}
   <div class="empty-state">
     <h3>No files found</h3>
     <p>
-      {% if request.user.role == 'admin' %}Upload an Excel file to get
-      started.{% else %}No files have been assigned to you yet.{% endif %}
+      {%if request.user.role == 'admin' %}Upload an Excel file to get
+      started.{%else %}No files have been assigned to you yet.{%endif %}
     </p>
-    {% if request.user.role == 'admin' %}
-    <a href="{% url 'upload_excel' %}" class="btn btn-primary mt-10"
-      >📤 Upload Excel</a
-    >
-    {% endif %}
+    {%if request.user.role == 'admin' %}
+    <a href="{%url 'upload_excel' %}" class="btn btn-primary mt-10">📤 Upload Excel</a>
+    {%endif %}
   </div>
-  {% endif %}
+  {%endif %}
 </div>
-{% endblock %}
+{%endblock %}

@@ -1,97 +1,67 @@
-{% extends 'layouts/base.html' %} {% block title %}Guardian Dashboard - SMS
-Portal{% endblock %} {% block breadcrumb %}Guardian > Dashboard{% endblock %} {%
-block content %}
+{%extends 'layouts/base.html' %}
+{%block title %}Guardian Dashboard - SMS Portal{%endblock %}
+{%block breadcrumb %}Guardian > Dashboard{%endblock %}
+{%block content %}
 <div class="page-header">
-  <h1>Welcome, {{ request.user.full_name }}! 👋</h1>
-  <p>Your assigned files and activity</p>
+    <h1>Welcome, {{request.user.full_name }}! 👋</h1>
+    <p>Your assigned files and activity</p>
 </div>
 
 <div class="stats-grid">
-  <div class="stat-card">
-    <div class="icon">📁</div>
-    <div class="value">{{ stats.assigned_files }}</div>
-    <div class="label">Assigned Files</div>
-    <a href="{% url 'file_list' %}" class="stat-link">Browse →</a>
-  </div>
+    <div class="stat-card">
+        <div class="icon">📁</div>
+        <div class="value">{{stats.assigned_files }}</div>
+        <div class="label">Assigned Files</div>
+        <a href="{%url 'file_list' %}" class="stat-link">Browse →</a>
+    </div>
 
-  <div class="stat-card">
-    <div class="icon">🎓</div>
-    <div class="value">{{ stats.total_students }}</div>
-    <div class="label">Assigned Students</div>
-  </div>
+    <div class="stat-card">
+        <div class="icon">🎓</div>
+        <div class="value">{{stats.total_students }}</div>
+        <div class="label">Assigned Students</div>
+    </div>
 
-  <div class="stat-card">
-    <div class="icon">📋</div>
-    <div class="value">{{ stats.my_requests }}</div>
-    <div class="label">My Edit Requests</div>
-    <a href="{% url 'my_requests' %}" class="stat-link">Track →</a>
-  </div>
+    <div class="stat-card">
+        <div class="icon">📋</div>
+        <div class="value">{{stats.my_requests }}</div>
+        <div class="label">My Edit Requests</div>
+        <a href="{%url 'my_requests' %}" class="stat-link">Track →</a>
+    </div>
 
-  <div class="stat-card">
-    <div class="icon">⏳</div>
-    <div class="value">{{ stats.pending_requests }}</div>
-    <div class="label">Pending Requests</div>
-  </div>
+    <div class="stat-card">
+        <div class="icon">⏳</div>
+        <div class="value">{{stats.pending_requests }}</div>
+        <div class="label">Pending Requests</div>
+    </div>
 </div>
 
 <!-- Quick Actions for Guardian -->
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px">
-  <div class="card">
-    <div class="card-header">
-      <h3>⚡ Quick Actions</h3>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+    <div class="card">
+        <div class="card-header">
+            <h3>⚡ Quick Actions</h3>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+            <a href="{%url 'file_list' %}" class="btn btn-secondary" style="justify-content: flex-start;">📁 View My Assigned Files</a>
+            <a href="{%url 'my_requests' %}" class="btn btn-secondary" style="justify-content: flex-start;">📋 View My Edit Requests</a>
+            <a href="{%url 'announcement_list' %}" class="btn btn-secondary" style="justify-content: flex-start;">📢 View Announcements</a>
+            <a href="{%url 'activity_feed' %}" class="btn btn-secondary" style="justify-content: flex-start;">🔔 Activity Feed</a>
+        </div>
     </div>
-    <div style="display: flex; flex-direction: column; gap: 8px">
-      <a
-        href="{% url 'file_list' %}"
-        class="btn btn-secondary"
-        style="justify-content: flex-start"
-      >
-        📁 View My Assigned Files
-      </a>
-      <a
-        href="{% url 'my_requests' %}"
-        class="btn btn-secondary"
-        style="justify-content: flex-start"
-      >
-        📋 View My Edit Requests
-      </a>
-      <a
-        href="{% url 'announcement_list' %}"
-        class="btn btn-secondary"
-        style="justify-content: flex-start"
-      >
-        📢 View Announcements
-      </a>
-      <a
-        href="{% url 'activity_feed' %}"
-        class="btn btn-secondary"
-        style="justify-content: flex-start"
-      >
-        🔔 Activity Feed
-      </a>
-    </div>
-  </div>
 
-  <div class="card">
-    <div class="card-header">
-      <h3>📌 Quick Info</h3>
+    <div class="card">
+        <div class="card-header">
+            <h3>📌 Quick Info</h3>
+        </div>
+        <div style="padding: 16px 0; color: var(--text-secondary); font-size: 14px; line-height: 1.8;">
+            <p>👋 Welcome to your Guardian panel. You can:</p>
+            <ul style="margin-top: 10px; padding-left: 20px;">
+                <li>Access your assigned student records</li>
+                <li>Submit edit requests for review</li>
+                <li>Stay updated with announcements</li>
+                <li>Track your request approval history</li>
+            </ul>
+        </div>
     </div>
-    <div
-      style="
-        padding: 16px 0;
-        color: var(--text-secondary);
-        font-size: 14px;
-        line-height: 1.8;
-      "
-    >
-      <p>👋 Welcome to your Guardian panel. You can:</p>
-      <ul style="margin-top: 10px; padding-left: 20px">
-        <li>Access your assigned student records</li>
-        <li>Submit edit requests for review</li>
-        <li>Stay updated with announcements</li>
-        <li>Track your request approval history</li>
-      </ul>
-    </div>
-  </div>
 </div>
-{% endblock %}
+{%endblock %}

@@ -3,12 +3,11 @@
     <button
       class="mobile-menu-btn"
       onclick="toggleMobileSidebar()"
-      aria-label="Menu"
-    >
+      aria-label="Menu">
       ☰
     </button>
     <div class="breadcrumb">
-      📍 {% block breadcrumb %}Dashboard{% endblock %}
+      📍 {%block breadcrumb %}Dashboard{%endblock %}
     </div>
   </div>
 
@@ -19,8 +18,7 @@
       onclick="toggleSidebarCollapse()"
       title="Toggle Sidebar"
       id="collapseBtn"
-      style="display: none"
-    >
+      style="display: none">
       <span id="collapseIcon">◀</span>
     </button>
 
@@ -29,8 +27,7 @@
       class="theme-toggle"
       onclick="toggleTheme()"
       title="Toggle Light/Dark Mode"
-      id="themeBtn"
-    >
+      id="themeBtn">
       <span id="themeIcon">☀️</span>
     </button>
 
@@ -38,58 +35,55 @@
 
     <!-- Activity -->
     <a
-      href="{% url 'activity_feed' %}"
+      href="{%url 'activity_feed' %}"
       class="nav-action-btn"
-      title="Activity Feed"
-    >
-      🔔 {% if unread_activity_count > 0 %}
-      <span class="count-badge">{{ unread_activity_count }}</span>
-      {% endif %}
+      title="Activity Feed">
+      🔔 {%if unread_activity_count > 0 %}
+      <span class="count-badge">{{unread_activity_count }}</span>
+      {%endif %}
     </a>
 
     <!-- Announcements -->
     <a
-      href="{% url 'announcement_list' %}"
+      href="{%url 'announcement_list' %}"
       class="nav-action-btn"
-      title="Announcements"
-    >
-      📢 {% if unread_announcement_count > 0 %}
-      <span class="count-badge">{{ unread_announcement_count }}</span>
-      {% endif %}
+      title="Announcements">
+      📢 {%if unread_announcement_count > 0 %}
+      <span class="count-badge">{{unread_announcement_count }}</span>
+      {%endif %}
     </a>
 
     <!-- Edit Requests (Admin) -->
-    {% if request.user.role == 'admin' %}
+    {%if request.user.role == 'admin' %}
     <a
-      href="{% url 'notification_list' %}"
+      href="{%url 'notification_list' %}"
       class="nav-action-btn"
-      title="Edit Requests"
-    >
-      📋 {% if unread_notification_count > 0 %}
-      <span class="count-badge">{{ unread_notification_count }}</span>
-      {% endif %}
+      title="Edit Requests">
+      📋 {%if unread_notification_count > 0 %}
+      <span class="count-badge">{{unread_notification_count }}</span>
+      {%endif %}
     </a>
-    {% endif %}
+    {%endif %}
 
     <div class="nav-separator"></div>
 
     <!-- Profile -->
-    <a href="{% url 'profile' %}" class="nav-profile" title="My Profile">
-      {% if request.user.photo %}
+    <a href="{%url 'profile' %}" class="nav-profile" title="My Profile">
+      {%if request.user.photo %}
       <img
-        src="{{ request.user.photo.url }}"
+        src="{{request.user.photo.url }}"
         alt=""
         class="nav-avatar"
         style="object-fit: cover"
       />
-      {% else %}
-      <div class="nav-avatar">{{ request.user.initials }}</div>
-      {% endif %}
-      <span class="nav-name">{{ request.user.full_name|truncatewords:2 }}</span>
+      {%else %}
+      <div class="nav-avatar">{{request.user.initials }}</div>
+      {%endif %}
+      <span class="nav-name">{{request.user.full_name|truncatewords:2 }}</span>
     </a>
 
     <!-- Logout -->
-    <a href="{% url 'logout' %}" class="nav-logout" title="Logout">🚪</a>
+    <a href="{%url 'logout' %}" class="nav-logout" title="Logout">🚪</a>
   </div>
 </div>
 

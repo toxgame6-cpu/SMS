@@ -1,23 +1,16 @@
-{% if page_obj.has_other_pages %}
+{%if page_obj.has_other_pages %}
 <div class="pagination">
-  {% if page_obj.has_previous %}
+  {%if page_obj.has_previous %}
   <a
-    href="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
-    >← Prev</a
-  >
-  {% endif %} {% for num in page_obj.paginator.page_range %} {% if
-  page_obj.number == num %}
-  <span class="current">{{ num }}</span>
-  {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+    href="?page={{page_obj.previous_page_number }}{%for key, value in request.GET.items %}{%if key != 'page' %}&{{key }}={{value }}{%endif %}{%endfor %}">← Prev</a>
+  {%endif %} {%for num in page_obj.paginator.page_range %} {%if page_obj.number == num %}
+  <span class="current">{{num }}</span>
+  {%elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
   <a
-    href="?page={{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
-    >{{ num }}</a
-  >
-  {% endif %} {% endfor %} {% if page_obj.has_next %}
+    href="?page={{num }}{%for key, value in request.GET.items %}{%if key != 'page' %}&{{key }}={{value }}{%endif %}{%endfor %}">{{num }}</a>
+  {%endif %} {%endfor %} {%if page_obj.has_next %}
   <a
-    href="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
-    >Next →</a
-  >
-  {% endif %}
+    href="?page={{page_obj.next_page_number }}{%for key, value in request.GET.items %}{%if key != 'page' %}&{{key }}={{value }}{%endif %}{%endfor %}">Next →</a>
+  {%endif %}
 </div>
-{% endif %}
+{%endif %}

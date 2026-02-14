@@ -2,20 +2,18 @@
   <form method="GET" style="display: flex; gap: 10px; width: 100%">
     <input
       type="text"
-      name="{{ search_param|default:'search' }}"
-      placeholder="{{ placeholder|default:'Search...' }}"
-      value="{{ search_value|default:'' }}"
+      name="{{search_param|default:'search' }}"
+      placeholder="{{placeholder|default:'Search...' }}"
+      value="{{search_value|default:'' }}"
       class="form-input"
       style="flex: 1"
     />
-    {% for key, value in preserved_params.items %}
-    <input type="hidden" name="{{ key }}" value="{{ value }}" />
-    {% endfor %}
+    {%for key, value in preserved_params.items %}
+    <input type="hidden" name="{{key }}" value="{{value }}" />
+    {%endfor %}
     <button type="submit" class="btn btn-primary btn-sm">🔍 Search</button>
-    {% if search_value %}
-    <a href="{{ clear_url|default:'.' }}" class="btn btn-secondary btn-sm"
-      >✕ Clear</a
-    >
-    {% endif %}
+    {%if search_value %}
+    <a href="{{clear_url|default:'.' }}" class="btn btn-secondary btn-sm">✕ Clear</a>
+    {%endif %}
   </form>
 </div>

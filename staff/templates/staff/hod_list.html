@@ -1,11 +1,10 @@
-{% extends 'layouts/base.html' %} {% block title %}HODs - SMS Portal{% endblock
-%} {% block breadcrumb %}Admin > HODs{% endblock %} {% block content %}
+{%extends 'layouts/base.html' %} {%block title %}HODs - SMS Portal{%endblock %} {%block breadcrumb %}Admin > HODs{%endblock %} {%block content %}
 <div class="page-header flex-between">
   <div>
     <h1>👨‍💼 HODs</h1>
     <p>Manage Head of Department accounts</p>
   </div>
-  <a href="{% url 'hod_create' %}" class="btn btn-primary">+ Create HOD</a>
+  <a href="{%url 'hod_create' %}" class="btn btn-primary">+ Create HOD</a>
 </div>
 
 <div class="card">
@@ -14,29 +13,23 @@
       type="text"
       name="search"
       placeholder="Search HODs..."
-      value="{{ search }}"
+      value="{{search }}"
     />
     <select name="department" onchange="this.form.submit()">
       <option value="">All Departments</option>
-      {% for dept in departments %} {% if dept %}
+      {%for dept in departments %} {%if dept %}
       <option
-        value="{{ dept }}"
-        {%
-        if
-        dept=""
-        ="selected_department"
-        %}selected{%
-        endif
-        %}
+        value="{{dept }}"
+        {%if dept == selected_department %}selected{%endif %}
       >
-        {{ dept }}
+        {{dept }}
       </option>
-      {% endif %} {% endfor %}
+      {%endif %} {%endfor %}
     </select>
     <button type="submit" class="btn btn-secondary btn-sm">Search</button>
   </form>
 
-  {% if page_obj.object_list %}
+  {%if page_obj.object_list %}
   <table>
     <thead>
       <tr>
@@ -49,60 +42,45 @@
       </tr>
     </thead>
     <tbody>
-      {% for hod in page_obj %}
+      {%for hod in page_obj %}
       <tr>
-        <td>{{ forloop.counter }}</td>
-        <td><strong>{{ hod.full_name }}</strong></td>
-        <td>{{ hod.email }}</td>
-        <td>{{ hod.phone|default:"-" }}</td>
-        <td>{{ hod.department|default:"-" }}</td>
+        <td>{{forloop.counter }}</td>
+        <td><strong>{{hod.full_name }}</strong></td>
+        <td>{{hod.email }}</td>
+        <td>{{hod.phone|default:"-" }}</td>
+        <td>{{hod.department|default:"-" }}</td>
         <td class="actions">
           <a
-            href="{% url 'hod_detail' pk=hod.pk %}"
-            class="btn btn-secondary btn-sm"
-            >👁</a
-          >
+            href="{%url 'hod_detail' pk=hod.pk %}"
+            class="btn btn-secondary btn-sm">👁</a>
           <a
-            href="{% url 'hod_edit' pk=hod.pk %}"
-            class="btn btn-warning btn-sm"
-            >✏️</a
-          >
+            href="{%url 'hod_edit' pk=hod.pk %}"
+            class="btn btn-warning btn-sm">✏️</a>
           <form
             method="POST"
-            action="{% url 'hod_delete' pk=hod.pk %}"
+            action="{%url 'hod_delete' pk=hod.pk %}"
             style="display: inline"
-            onsubmit="return confirm('Delete this HOD?');"
-          >
-            {% csrf_token %}
+            onsubmit="return confirm('Delete this HOD?');">
+            {%csrf_token %}
             <button type="submit" class="btn btn-danger btn-sm">🗑</button>
           </form>
         </td>
       </tr>
-      {% endfor %}
+      {%endfor %}
     </tbody>
   </table>
-  {% if page_obj.has_other_pages %}
+  {%if page_obj.has_other_pages %}
   <div class="pagination">
-    {% if page_obj.has_previous %}<a
-      href="?page={{ page_obj.previous_page_number }}&search={{ search }}"
-      >← Prev</a
-    >{% endif %} {% for num in page_obj.paginator.page_range %}{% if
-    page_obj.number == num %}<span class="current">{{ num }}</span>{% elif num >
-    page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}<a
-      href="?page={{ num }}&search={{ search }}"
-      >{{ num }}</a
-    >{% endif %}{% endfor %} {% if page_obj.has_next %}<a
-      href="?page={{ page_obj.next_page_number }}&search={{ search }}"
-      >Next →</a
-    >{% endif %}
+    {%if page_obj.has_previous %}<a
+      href="?page={{page_obj.previous_page_number }}&search={{search }}">← Prev</a>{%endif %} {%for num in page_obj.paginator.page_range %}{%if page_obj.number == num %}<span class="current">{{num }}</span>{%elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}<a
+      href="?page={{num }}&search={{search }}">{{num }}</a>{%endif %}{%endfor %} {%if page_obj.has_next %}<a
+      href="?page={{page_obj.next_page_number }}&search={{search }}">Next →</a>{%endif %}
   </div>
-  {% endif %} {% else %}
+  {%endif %} {%else %}
   <div class="empty-state">
     <h3>No HODs found</h3>
-    <a href="{% url 'hod_create' %}" class="btn btn-primary mt-10"
-      >+ Create HOD</a
-    >
+    <a href="{%url 'hod_create' %}" class="btn btn-primary mt-10">+ Create HOD</a>
   </div>
-  {% endif %}
+  {%endif %}
 </div>
-{% endblock %}
+{%endblock %}

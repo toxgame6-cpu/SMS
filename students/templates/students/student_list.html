@@ -1,21 +1,17 @@
-{% extends 'layouts/base.html' %} {% block title %}{{ student_file.file_name }}
-- Students{% endblock %} {% block breadcrumb %}Student Files > {{
-student_file.file_name }}{% endblock %} {% block content %}
+{%extends 'layouts/base.html' %} {%block title %}{{student_file.file_name }}
+- Students{%endblock %} {%block breadcrumb %}Student Files > {{student_file.file_name }}{%endblock %} {%block content %}
 <div class="page-header flex-between">
   <div>
-    <h1>👨‍🎓 {{ student_file.file_name }}</h1>
+    <h1>👨‍🎓 {{student_file.file_name }}</h1>
     <p>
-      {{ student_file.class_name }} | Division {{ student_file.division }} | {{
-      student_file.year }} | {{ student_file.total_students }} students
+      {{student_file.class_name }} | Division {{student_file.division }} | {{student_file.year }} | {{student_file.total_students }} students
     </p>
   </div>
   <div>
     <a
-      href="{% url 'file_download' file_id=student_file.pk %}"
-      class="btn btn-success btn-sm"
-      >📥 Download Excel</a
-    >
-    <a href="{% url 'file_list' %}" class="btn btn-secondary btn-sm">← Back</a>
+      href="{%url 'file_download' file_id=student_file.pk %}"
+      class="btn btn-success btn-sm">📥 Download Excel</a>
+    <a href="{%url 'file_list' %}" class="btn btn-secondary btn-sm">← Back</a>
   </div>
 </div>
 
@@ -25,12 +21,12 @@ student_file.file_name }}{% endblock %} {% block content %}
       type="text"
       name="search"
       placeholder="Search by name, roll, PRN..."
-      value="{{ search }}"
+      value="{{search }}"
     />
     <button type="submit" class="btn btn-secondary btn-sm">Search</button>
   </form>
 
-  {% if page_obj.object_list %}
+  {%if page_obj.object_list %}
   <table>
     <thead>
       <tr>
@@ -44,95 +40,78 @@ student_file.file_name }}{% endblock %} {% block content %}
       </tr>
     </thead>
     <tbody>
-      {% for student in page_obj %}
+      {%for student in page_obj %}
       <tr>
-        <td>{{ student.roll_no }}</td>
-        <td>{{ student.prn }}</td>
-        <td><strong>{{ student.full_name }}</strong></td>
-        <td>{{ student.phone|default:"-" }}</td>
-        <td>{{ student.email|default:"-" }}</td>
+        <td>{{student.roll_no }}</td>
+        <td>{{student.prn }}</td>
+        <td><strong>{{student.full_name }}</strong></td>
+        <td>{{student.phone|default:"-" }}</td>
+        <td>{{student.email|default:"-" }}</td>
         <td>
-          {% if student.status == 'normal' %}
+          {%if student.status == 'normal' %}
           <span class="badge badge-success">Normal</span>
-          {% elif student.status == 'marked' %}
+          {%elif student.status == 'marked' %}
           <span class="badge badge-warning">Edit Marked</span>
-          {% elif student.status == 'resolved' %}
+          {%elif student.status == 'resolved' %}
           <span class="badge badge-info">Resolved</span>
-          {% endif %}
+          {%endif %}
         </td>
         <td class="actions">
           <a
-            href="{% url 'student_profile' pk=student.pk %}"
-            class="btn btn-secondary btn-sm"
-            >👁</a
-          >
-          {% if request.user.role == 'admin' %}
+            href="{%url 'student_profile' pk=student.pk %}"
+            class="btn btn-secondary btn-sm">👁</a>
+          {%if request.user.role == 'admin' %}
           <a
-            href="{% url 'student_edit' pk=student.pk %}"
-            class="btn btn-warning btn-sm"
-            >✏️</a
-          >
+            href="{%url 'student_edit' pk=student.pk %}"
+            class="btn btn-warning btn-sm">✏️</a>
           <form
             method="POST"
-            action="{% url 'student_delete' pk=student.pk %}"
+            action="{%url 'student_delete' pk=student.pk %}"
             style="display: inline"
-            onsubmit="return confirm('Delete this student?');"
-          >
-            {% csrf_token %}
+            onsubmit="return confirm('Delete this student?');">
+            {%csrf_token %}
             <button type="submit" class="btn btn-danger btn-sm">🗑</button>
           </form>
-          {% elif request.user.role == 'hod' or request.user.role == 'teacher'
-          or request.user.role == 'guardian' %} {% if student.status != 'marked'
-          %}
+          {%elif request.user.role == 'hod' or request.user.role == 'teacher' or request.user.role == 'guardian' %} {%if student.status != 'marked' %}
           <form
             method="POST"
-            action="{% url 'create_mark_edit' %}"
-            style="display: inline"
-          >
-            {% csrf_token %}
-            <input type="hidden" name="student_id" value="{{ student.pk }}" />
+            action="{%url 'create_mark_edit' %}"
+            style="display: inline">
+            {%csrf_token %}
+            <input type="hidden" name="student_id" value="{{student.pk }}" />
             <button
               type="button"
               class="btn btn-warning btn-sm"
-              onclick="openMarkModal({{ student.pk }}, '{{ student.full_name }}')"
-            >
+              onclick="openMarkModal({{student.pk }}, '{{student.full_name }}')">
               🚩 Mark Edit
             </button>
           </form>
-          {% else %}
+          {%else %}
           <span class="badge badge-gray">✅ Marked</span>
-          {% endif %} {% endif %}
+          {%endif %} {%endif %}
         </td>
       </tr>
-      {% endfor %}
+      {%endfor %}
     </tbody>
   </table>
 
-  {% if page_obj.has_other_pages %}
+  {%if page_obj.has_other_pages %}
   <div class="pagination">
-    {% if page_obj.has_previous %}<a
-      href="?page={{ page_obj.previous_page_number }}&search={{ search }}"
-      >← Prev</a
-    >{% endif %} {% for num in page_obj.paginator.page_range %}{% if
-    page_obj.number == num %}<span class="current">{{ num }}</span>{% elif num >
-    page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}<a
-      href="?page={{ num }}&search={{ search }}"
-      >{{ num }}</a
-    >{% endif %}{% endfor %} {% if page_obj.has_next %}<a
-      href="?page={{ page_obj.next_page_number }}&search={{ search }}"
-      >Next →</a
-    >{% endif %}
+    {%if page_obj.has_previous %}<a
+      href="?page={{page_obj.previous_page_number }}&search={{search }}">← Prev</a>{%endif %} {%for num in page_obj.paginator.page_range %}{%if page_obj.number == num %}<span class="current">{{num }}</span>{%elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}<a
+      href="?page={{num }}&search={{search }}">{{num }}</a>{%endif %}{%endfor %} {%if page_obj.has_next %}<a
+      href="?page={{page_obj.next_page_number }}&search={{search }}">Next →</a>{%endif %}
   </div>
-  {% endif %} {% else %}
+  {%endif %} {%else %}
   <div class="empty-state">
     <h3>No students found</h3>
     <p>No students match your search criteria.</p>
   </div>
-  {% endif %}
+  {%endif %}
 </div>
 
 <!-- Mark Edit Modal -->
-{% if request.user.role in 'hod,teacher,guardian' %}
+{%if request.user.role in 'hod,teacher,guardian' %}
 <div
   id="markEditModal"
   style="
@@ -146,8 +125,7 @@ student_file.file_name }}{% endblock %} {% block content %}
     z-index: 100;
     align-items: center;
     justify-content: center;
-  "
->
+  ">
   <div
     style="
       background: #fff;
@@ -157,16 +135,14 @@ student_file.file_name }}{% endblock %} {% block content %}
       width: 90%;
       margin: auto;
       margin-top: 15vh;
-    "
-  >
+    ">
     <h3 style="margin-bottom: 20px">🚩 Mark Edit Request</h3>
     <p
       id="markStudentName"
-      style="font-size: 14px; color: #64748b; margin-bottom: 15px"
-    ></p>
+      style="font-size: 14px; color: #64748b; margin-bottom: 15px"></p>
 
-    <form method="POST" action="{% url 'create_mark_edit' %}">
-      {% csrf_token %}
+    <form method="POST" action="{%url 'create_mark_edit' %}">
+      {%csrf_token %}
       <input type="hidden" name="student_id" id="markStudentId" />
 
       <div class="form-group">
@@ -192,16 +168,14 @@ student_file.file_name }}{% endblock %} {% block content %}
           class="form-input"
           rows="3"
           placeholder="Describe what needs to be changed..."
-          required
-        ></textarea>
+          required></textarea>
       </div>
 
       <div style="text-align: right; margin-top: 15px">
         <button
           type="button"
           class="btn btn-secondary"
-          onclick="closeMarkModal()"
-        >
+          onclick="closeMarkModal()">
           Cancel
         </button>
         <button type="submit" class="btn btn-primary">📤 Submit Request</button>
@@ -229,4 +203,4 @@ student_file.file_name }}{% endblock %} {% block content %}
     if (e.key === "Escape") closeMarkModal();
   });
 </script>
-{% endif %} {% endblock %}
+{%endif %} {%endblock %}

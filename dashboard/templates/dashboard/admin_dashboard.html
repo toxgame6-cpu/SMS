@@ -1,173 +1,98 @@
-{% extends 'layouts/base.html' %} {% block title %}Admin Dashboard - SMS
-Portal{% endblock %} {% block breadcrumb %}Admin > Dashboard{% endblock %} {%
-block content %}
+{%extends 'layouts/base.html' %}
+{%block title %}Admin Dashboard - SMS Portal{%endblock %}
+{%block breadcrumb %}Admin > Dashboard{%endblock %}
+{%block content %}
 <div class="page-header">
-  <h1>Welcome back, {{ request.user.full_name }}! 👋</h1>
-  <p>Here's your system overview</p>
+    <h1>Welcome back, {{request.user.full_name }}!</h1>
+    <p>Here is your system overview</p>
 </div>
 
-<!-- Stats Grid -->
 <div class="stats-grid">
-  <div class="stat-card">
-    <div class="icon">👨‍🏫</div>
-    <div class="value">{{ stats.total_teachers }}</div>
-    <div class="label">Teachers</div>
-    <a href="{% url 'teacher_list' %}" class="stat-link">Manage →</a>
-  </div>
-
-  <div class="stat-card">
-    <div class="icon">🧑‍🤝‍🧑</div>
-    <div class="value">{{ stats.total_guardians }}</div>
-    <div class="label">Guardians</div>
-    <a href="{% url 'guardian_list' %}" class="stat-link">Manage →</a>
-  </div>
-
-  <div class="stat-card">
-    <div class="icon">👨‍💼</div>
-    <div class="value">{{ stats.total_hods }}</div>
-    <div class="label">HODs</div>
-    <a href="{% url 'hod_list' %}" class="stat-link">Manage →</a>
-  </div>
-
-  <div class="stat-card">
-    <div class="icon">🎓</div>
-    <div class="value">{{ stats.total_students }}</div>
-    <div class="label">Students</div>
-    <a href="{% url 'file_list' %}" class="stat-link">Details →</a>
-  </div>
-
-  <div class="stat-card">
-    <div class="icon">📁</div>
-    <div class="value">{{ stats.total_files }}</div>
-    <div class="label">Student Files</div>
-    <a href="{% url 'file_list' %}" class="stat-link">Browse →</a>
-  </div>
-
-  <div class="stat-card">
-    <div class="icon">🔔</div>
-    <div class="value">{{ stats.pending_notifications }}</div>
-    <div class="label">Pending Requests</div>
-    <a href="{% url 'notification_list' %}" class="stat-link">Review →</a>
-  </div>
-</div>
-
-<!-- Recent Announcements -->
-{% if recent_announcements %}
-<div class="card" style="margin-bottom: 20px">
-  <div class="card-header">
-    <h3>📢 Recent Announcements</h3>
-    <a href="{% url 'announcement_list' %}" class="btn btn-secondary btn-sm"
-      >Read More →</a
-    >
-  </div>
-  {% for ann in recent_announcements %}
-  <div style="padding: 12px 0; border-bottom: 1px solid var(--border)">
-    <a
-      href="{% url 'announcement_detail' pk=ann.pk %}"
-      style="
-        text-decoration: none;
-        color: var(--text-primary);
-        font-weight: 600;
-        font-size: 14px;
-      "
-    >
-      {{ ann.category_emoji }} {{ ann.title }}
-    </a>
-    <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px">
-      {{ ann.created_at|timesince }} ago • {{ ann.get_category_display }} {% if
-      ann.is_pinned %} • 📌 Pinned{% endif %}
+    <div class="stat-card">
+        <div class="icon">T</div>
+        <div class="value">{{stats.total_teachers }}</div>
+        <div class="label">Teachers</div>
+        <a href="{%url 'teacher_list' %}" class="stat-link">Manage</a>
     </div>
-  </div>
-  {% endfor %}
+    <div class="stat-card">
+        <div class="icon">G</div>
+        <div class="value">{{stats.total_guardians }}</div>
+        <div class="label">Guardians</div>
+        <a href="{%url 'guardian_list' %}" class="stat-link">Manage</a>
+    </div>
+    <div class="stat-card">
+        <div class="icon">H</div>
+        <div class="value">{{stats.total_hods }}</div>
+        <div class="label">HODs</div>
+        <a href="{%url 'hod_list' %}" class="stat-link">Manage</a>
+    </div>
+    <div class="stat-card">
+        <div class="icon">S</div>
+        <div class="value">{{stats.total_students }}</div>
+        <div class="label">Students</div>
+        <a href="{%url 'file_list' %}" class="stat-link">Details</a>
+    </div>
+    <div class="stat-card">
+        <div class="icon">F</div>
+        <div class="value">{{stats.total_files }}</div>
+        <div class="label">Student Files</div>
+        <a href="{%url 'file_list' %}" class="stat-link">Browse</a>
+    </div>
+    <div class="stat-card">
+        <div class="icon">N</div>
+        <div class="value">{{stats.pending_notifications }}</div>
+        <div class="label">Pending Requests</div>
+        <a href="{%url 'notification_list' %}" class="stat-link">Review</a>
+    </div>
 </div>
-{% endif %}
 
-<!-- Content Grid -->
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px">
-  <!-- Recent Activity -->
-  <div class="card">
+{%if recent_announcements %}
+<div class="card" style="margin-bottom: 20px;">
     <div class="card-header">
-      <h3>📋 Recent Activity</h3>
-      <a href="{% url 'audit_log' %}" class="btn btn-secondary btn-sm"
-        >Inspect →</a
-      >
+        <h3>Recent Announcements</h3>
+        <a href="{%url 'announcement_list' %}" class="btn btn-secondary btn-sm">Read More</a>
     </div>
-    {% if recent_activity %} {% for log in recent_activity %}
-    <div
-      style="
-        padding: 8px 0;
-        border-bottom: 1px solid var(--border);
-        font-size: 13px;
-      "
-    >
-      <span
-        style="color: {% if 'login' in log.action %}var(--info-text){% elif 'delete' in log.action %}var(--danger-text){% elif 'create' in log.action %}var(--success-text){% else %}var(--warning-text){% endif %};"
-        >●
-      </span>
-      {{ log.get_action_display }} {% if log.user %} by
-      <strong style="color: var(--text-primary)"
-        >{{ log.user.full_name }}</strong
-      >{% endif %}
-      <span style="color: var(--text-muted); float: right; font-size: 11px"
-        >{{ log.timestamp|timesince }} ago</span
-      >
+    {%for ann in recent_announcements %}
+    <div style="padding: 12px 0; border-bottom: 1px solid var(--border);">
+        <a href="{%url 'announcement_detail' pk=ann.pk %}" style="text-decoration: none; color: var(--text-primary); font-weight: 600; font-size: 14px;">{{ann.category_emoji }} {{ann.title }}</a>
+        <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">{{ann.created_at|timesince }} ago - {{ann.get_category_display }}{%if ann.is_pinned %} - Pinned{%endif %}</div>
     </div>
-    {% endfor %} {% else %}
-    <div class="empty-state">
-      <p>No recent activity</p>
-    </div>
-    {% endif %}
-  </div>
-
-  <!-- Quick Actions -->
-  <div class="card">
-    <div class="card-header">
-      <h3>⚡ Quick Actions</h3>
-    </div>
-    <div style="display: flex; flex-direction: column; gap: 8px">
-      <a
-        href="{% url 'teacher_create' %}"
-        class="btn btn-secondary"
-        style="justify-content: flex-start"
-      >
-        👨‍🏫 Create Teacher
-      </a>
-      <a
-        href="{% url 'guardian_create' %}"
-        class="btn btn-secondary"
-        style="justify-content: flex-start"
-      >
-        🧑‍🤝‍🧑 Create Guardian
-      </a>
-      <a
-        href="{% url 'hod_create' %}"
-        class="btn btn-secondary"
-        style="justify-content: flex-start"
-      >
-        👨‍💼 Create HOD
-      </a>
-      <a
-        href="{% url 'upload_excel' %}"
-        class="btn btn-secondary"
-        style="justify-content: flex-start"
-      >
-        📤 Upload Excel
-      </a>
-      <a
-        href="{% url 'permission_list' %}"
-        class="btn btn-secondary"
-        style="justify-content: flex-start"
-      >
-        🔐 Manage Permissions
-      </a>
-      <a
-        href="{% url 'announcement_create' %}"
-        class="btn btn-secondary"
-        style="justify-content: flex-start"
-      >
-        📢 New Announcement
-      </a>
-    </div>
-  </div>
+    {%endfor %}
 </div>
-{% endblock %}
+{%endif %}
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+    <div class="card">
+        <div class="card-header">
+            <h3>Recent Activity</h3>
+            <a href="{%url 'audit_log' %}" class="btn btn-secondary btn-sm">Inspect</a>
+        </div>
+        {%if recent_activity %}
+            {%for log in recent_activity %}
+            <div style="padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px;">
+                <span style="color: {%if 'login' in log.action %}var(--info-text){%elif 'delete' in log.action %}var(--danger-text){%elif 'create' in log.action %}var(--success-text){%else %}var(--warning-text){%endif %};">*</span>
+                {{log.get_action_display }}{%if log.user %} by <strong style="color: var(--text-primary);">{{log.user.full_name }}</strong>{%endif %}
+                <span style="color: var(--text-muted); float: right; font-size: 11px;">{{log.timestamp|timesince }} ago</span>
+            </div>
+            {%endfor %}
+        {%else %}
+        <div class="empty-state">
+            <p>No recent activity</p>
+        </div>
+        {%endif %}
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h3>Quick Actions</h3>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+            <a href="{%url 'teacher_create' %}" class="btn btn-secondary" style="justify-content: flex-start;">Create Teacher</a>
+            <a href="{%url 'guardian_create' %}" class="btn btn-secondary" style="justify-content: flex-start;">Create Guardian</a>
+            <a href="{%url 'hod_create' %}" class="btn btn-secondary" style="justify-content: flex-start;">Create HOD</a>
+            <a href="{%url 'upload_excel' %}" class="btn btn-secondary" style="justify-content: flex-start;">Upload Excel</a>
+            <a href="{%url 'permission_list' %}" class="btn btn-secondary" style="justify-content: flex-start;">Manage Permissions</a>
+            <a href="{%url 'announcement_create' %}" class="btn btn-secondary" style="justify-content: flex-start;">New Announcement</a>
+        </div>
+    </div>
+</div>
+{%endblock %}

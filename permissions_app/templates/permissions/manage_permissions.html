@@ -1,6 +1,5 @@
-{% extends 'layouts/base.html' %} {% load custom_tags %} {% block title
-%}Permissions - SMS Portal{% endblock %} {% block breadcrumb %}Admin >
-Permissions{% endblock %} {% block content %}
+{%extends 'layouts/base.html' %} {%load custom_tags %} {%block title %}Permissions - SMS Portal{%endblock %} {%block breadcrumb %}Admin >
+Permissions{%endblock %} {%block content %}
 <div class="page-header">
   <h1>🔐 File Permissions</h1>
   <p>Grant or revoke file access for teachers and guardians</p>
@@ -12,47 +11,40 @@ Permissions{% endblock %} {% block content %}
       type="text"
       name="search"
       placeholder="Search by name..."
-      value="{{ search }}"
+      value="{{search }}"
     />
     <button type="submit" class="btn btn-secondary btn-sm">Search</button>
   </form>
 
-  {% if staff %} {% for s in staff %} {% with
-  user_perms=permissions|get_item:s.pk %}
+  {%if staff %} {%for s in staff %} {%with user_perms=permissions|get_item:s.pk %}
   <div class="card" style="border: 1px solid #e2e8f0">
     <div
       class="flex-between"
       style="cursor: pointer"
-      onclick="toggleAccordion('perm-{{ s.pk }}')"
-    >
+      onclick="toggleAccordion('perm-{{s.pk }}')">
       <div>
-        <strong>{{ s.full_name }}</strong>
+        <strong>{{s.full_name }}</strong>
         <span
-          class="badge {% if s.role == 'teacher' %}badge-info{% else %}badge-success{% endif %}"
-          style="margin-left: 8px"
-          >{{ s.get_role_display }}</span
-        >
-        {% if s.department %}<span
-          style="font-size: 12px; color: #94a3b8; margin-left: 8px"
-          >{{ s.department }}</span
-        >{% endif %}
+          class="badge {%if s.role == 'teacher' %}badge-info{%else %}badge-success{%endif %}"
+          style="margin-left: 8px">{{s.get_role_display }}</span>
+        {%if s.department %}<span
+          style="font-size: 12px; color: #94a3b8; margin-left: 8px">{{s.department }}</span>{%endif %}
       </div>
       <span style="font-size: 18px">▾</span>
     </div>
 
     <div
-      id="perm-{{ s.pk }}"
+      id="perm-{{s.pk }}"
       style="
         display: none;
         margin-top: 15px;
         padding-top: 15px;
         border-top: 1px solid #f1f5f9;
-      "
-    >
-      <form method="POST" action="{% url 'permission_save' user_id=s.pk %}">
-        {% csrf_token %} {% if files %}
+      ">
+      <form method="POST" action="{%url 'permission_save' user_id=s.pk %}">
+        {%csrf_token %} {%if files %}
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px">
-          {% for file in files %}
+          {%for file in files %}
           <label
             style="
               display: flex;
@@ -63,31 +55,21 @@ Permissions{% endblock %} {% block content %}
               border-radius: 6px;
               cursor: pointer;
               font-size: 13px;
-            "
-          >
+            ">
             <input
               type="checkbox"
               name="files"
-              value="{{ file.pk }}"
-              {%
-              if
-              file.pk|in_set:user_perms
-              %}checked{%
-              endif
-              %}
+              value="{{file.pk }}"
+              {%if file.pk|in_set:user_perms %}checked{%endif %}
             />
-            <span
-              >{{ file.file_name }}
-              <span style="color: #94a3b8"
-                >({{ file.total_students }})</span
-              ></span
-            >
+            <span>{{file.file_name }}
+              <span style="color: #94a3b8">({{file.total_students }})</span></span>
           </label>
-          {% endfor %}
+          {%endfor %}
         </div>
-        {% else %}
+        {%else %}
         <p style="color: #94a3b8; font-size: 13px">No files uploaded yet.</p>
-        {% endif %}
+        {%endif %}
 
         <div style="text-align: right; margin-top: 15px">
           <button type="submit" class="btn btn-primary btn-sm">
@@ -97,12 +79,12 @@ Permissions{% endblock %} {% block content %}
       </form>
     </div>
   </div>
-  {% endwith %} {% endfor %} {% else %}
+  {%endwith %} {%endfor %} {%else %}
   <div class="empty-state">
     <h3>No teachers or guardians found</h3>
     <p>Create teachers or guardians first to assign permissions.</p>
   </div>
-  {% endif %}
+  {%endif %}
 </div>
 
 <script>
@@ -111,4 +93,4 @@ Permissions{% endblock %} {% block content %}
     el.style.display = el.style.display === "none" ? "block" : "none";
   }
 </script>
-{% endblock %}
+{%endblock %}

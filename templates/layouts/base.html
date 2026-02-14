@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}SMS Portal{% endblock %}</title>
+    <title>{%block title %}SMS Portal{%endblock %}</title>
     <link rel="icon" href="/static/images/favicon.ico" type="image/x-icon" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
@@ -1328,36 +1328,28 @@
     <div
       class="sidebar-overlay"
       id="sidebarOverlay"
-      onclick="closeMobileSidebar()"
-    ></div>
+      onclick="closeMobileSidebar()"></div>
 
     <!-- Sidebar -->
-    {% if request.user.role == 'admin' %} {% include
-    'layouts/_sidebar_admin.html' %} {% elif request.user.role == 'hod' %} {%
-    include 'layouts/_sidebar_hod.html' %} {% elif request.user.role ==
-    'teacher' %} {% include 'layouts/_sidebar_teacher.html' %} {% elif
-    request.user.role == 'guardian' %} {% include
-    'layouts/_sidebar_guardian.html' %} {% endif %}
+    {%if request.user.role == 'admin' %} {%include 'layouts/_sidebar_admin.html' %} {%elif request.user.role == 'hod' %} {%include 'layouts/_sidebar_hod.html' %} {%elif request.user.role == 'teacher' %} {%include 'layouts/_sidebar_teacher.html' %} {%elif request.user.role == 'guardian' %} {%include 'layouts/_sidebar_guardian.html' %} {%endif %}
 
     <!-- Main -->
     <div class="main-content" id="mainContent">
-      {% include 'layouts/_navbar.html' %}
+      {%include 'layouts/_navbar.html' %}
 
       <div class="content-area">
-        {% if messages %}
+        {%if messages %}
         <div class="toast-container" id="toastContainer">
-          {% for message in messages %}
-          <div class="toast toast-{{ message.tags }}" onclick="this.remove()">
-            {% if message.tags == 'success' %}✅{% elif message.tags == 'error'
-            %}❌{% elif message.tags == 'warning' %}⚠️{% else %}ℹ️{% endif %} {{
-            message }}
+          {%for message in messages %}
+          <div class="toast toast-{{message.tags }}" onclick="this.remove()">
+            {%if message.tags == 'success' %}✅{%elif message.tags == 'error' %}❌{%elif message.tags == 'warning' %}⚠️{%else %}ℹ️{%endif %} {{message }}
           </div>
-          {% endfor %}
+          {%endfor %}
         </div>
-        {% endif %} {% block content %}{% endblock %}
+        {%endif %} {%block content %}{%endblock %}
       </div>
 
-      {% include 'layouts/_footer.html' %}
+      {%include 'layouts/_footer.html' %}
     </div>
 
     <script src="/static/js/main.js"></script>

@@ -1,6 +1,4 @@
-{% extends 'layouts/base.html' %} {% block title %}Notifications - SMS Portal{%
-endblock %} {% block breadcrumb %}Admin > Notifications{% endblock %} {% block
-content %}
+{%extends 'layouts/base.html' %} {%block title %}Notifications - SMS Portal{%endblock %} {%block breadcrumb %}Admin > Notifications{%endblock %} {%block content %}
 <div class="page-header flex-between">
   <div>
     <h1>🔔 Notification Center</h1>
@@ -8,10 +6,9 @@ content %}
   </div>
   <form
     method="POST"
-    action="{% url 'mark_all_read' %}"
-    style="display: inline"
-  >
-    {% csrf_token %}
+    action="{%url 'mark_all_read' %}"
+    style="display: inline">
+    {%csrf_token %}
     <button type="submit" class="btn btn-secondary btn-sm">
       ✅ Mark All Read
     </button>
@@ -21,61 +18,45 @@ content %}
 <!-- Filter Tabs -->
 <div style="display: flex; gap: 10px; margin-bottom: 20px">
   <a
-    href="{% url 'notification_list' %}"
-    class="btn {% if not status_filter %}btn-primary{% else %}btn-secondary{% endif %} btn-sm"
-    >All ({{ counts.all }})</a
-  >
+    href="{%url 'notification_list' %}"
+    class="btn {%if not status_filter %}btn-primary{%else %}btn-secondary{%endif %} btn-sm">All ({{counts.all }})</a>
   <a
-    href="{% url 'notification_list' %}?status=pending"
-    class="btn {% if status_filter == 'pending' %}btn-primary{% else %}btn-secondary{% endif %} btn-sm"
-    >Pending ({{ counts.pending }})</a
-  >
+    href="{%url 'notification_list' %}?status=pending"
+    class="btn {%if status_filter == 'pending' %}btn-primary{%else %}btn-secondary{%endif %} btn-sm">Pending ({{counts.pending }})</a>
   <a
-    href="{% url 'notification_list' %}?status=resolved"
-    class="btn {% if status_filter == 'resolved' %}btn-primary{% else %}btn-secondary{% endif %} btn-sm"
-    >Resolved ({{ counts.resolved }})</a
-  >
+    href="{%url 'notification_list' %}?status=resolved"
+    class="btn {%if status_filter == 'resolved' %}btn-primary{%else %}btn-secondary{%endif %} btn-sm">Resolved ({{counts.resolved }})</a>
   <a
-    href="{% url 'notification_list' %}?status=dismissed"
-    class="btn {% if status_filter == 'dismissed' %}btn-primary{% else %}btn-secondary{% endif %} btn-sm"
-    >Dismissed ({{ counts.dismissed }})</a
-  >
+    href="{%url 'notification_list' %}?status=dismissed"
+    class="btn {%if status_filter == 'dismissed' %}btn-primary{%else %}btn-secondary{%endif %} btn-sm">Dismissed ({{counts.dismissed }})</a>
 </div>
 
-{% if page_obj.object_list %} {% for notif in page_obj %}
+{%if page_obj.object_list %} {%for notif in page_obj %}
 <div
   class="card"
-  style="border-left: 4px solid {% if notif.status == 'pending' %}#d97706{% elif notif.status == 'resolved' %}#16a34a{% else %}#94a3b8{% endif %};"
->
+  style="border-left: 4px solid {%if notif.status == 'pending' %}#d97706{%elif notif.status == 'resolved' %}#16a34a{%else %}#94a3b8{%endif %};">
   <div class="flex-between">
     <div>
       <span
-        class="badge {% if notif.status == 'pending' %}badge-warning{% elif notif.status == 'resolved' %}badge-success{% else %}badge-gray{% endif %}"
-      >
-        {{ notif.get_status_display }}
+        class="badge {%if notif.status == 'pending' %}badge-warning{%elif notif.status == 'resolved' %}badge-success{%else %}badge-gray{%endif %}">
+        {{notif.get_status_display }}
       </span>
-      {% if not notif.is_read %}<span
+      {%if not notif.is_read %}<span
         class="badge badge-danger"
-        style="margin-left: 5px"
-        >NEW</span
-      >{% endif %}
+        style="margin-left: 5px">NEW</span>{%endif %}
     </div>
-    <span style="font-size: 12px; color: #94a3b8"
-      >{{ notif.created_at|timesince }} ago</span
-    >
+    <span style="font-size: 12px; color: #94a3b8">{{notif.created_at|timesince }} ago</span>
   </div>
 
   <div style="margin-top: 12px">
     <p style="font-size: 14px">
-      <strong>{{ notif.requested_by.full_name }}</strong>
-      <span class="badge badge-info" style="margin-left: 5px"
-        >{{ notif.requested_by.get_role_display }}</span
-      >
-      wants to edit <strong>{{ notif.get_field_to_edit_display }}</strong> for
-      student <strong>{{ notif.student.full_name }}</strong>
+      <strong>{{notif.requested_by.full_name }}</strong>
+      <span class="badge badge-info" style="margin-left: 5px">{{notif.requested_by.get_role_display }}</span>
+      wants to edit <strong>{{notif.get_field_to_edit_display }}</strong> for
+      student <strong>{{notif.student.full_name }}</strong>
     </p>
     <p style="font-size: 13px; color: #64748b; margin-top: 5px">
-      📁 File: {{ notif.student_file.file_name }}
+      📁 File: {{notif.student_file.file_name }}
     </p>
     <p
       style="
@@ -84,72 +65,56 @@ content %}
         background: #f8fafc;
         padding: 10px;
         border-radius: 6px;
-      "
-    >
-      💬 "{{ notif.remark }}"
+      ">
+      💬 "{{notif.remark }}"
     </p>
 
-    {% if notif.status == 'resolved' %}
+    {%if notif.status == 'resolved' %}
     <p style="font-size: 12px; color: #16a34a; margin-top: 8px">
-      ✅ Resolved by {{ notif.resolved_by.full_name }} on {{
-      notif.resolved_at|date:"d M Y, h:i A" }} {% if notif.resolution_note %}<br />Note:
-      {{ notif.resolution_note }}{% endif %}
+      ✅ Resolved by {{notif.resolved_by.full_name }} on {{notif.resolved_at|date:"d M Y, h:i A" }} {%if notif.resolution_note %}<br />Note:
+      {{notif.resolution_note }}{%endif %}
     </p>
-    {% endif %}
+    {%endif %}
   </div>
 
-  {% if notif.status == 'pending' %}
+  {%if notif.status == 'pending' %}
   <div style="margin-top: 15px; display: flex; gap: 8px">
     <a
-      href="{% url 'student_profile' pk=notif.student.pk %}"
-      class="btn btn-secondary btn-sm"
-      >👁 View Student</a
-    >
+      href="{%url 'student_profile' pk=notif.student.pk %}"
+      class="btn btn-secondary btn-sm">👁 View Student</a>
     <a
-      href="{% url 'student_edit' pk=notif.student.pk %}"
-      class="btn btn-primary btn-sm"
-      >✏️ Edit & Resolve</a
-    >
+      href="{%url 'student_edit' pk=notif.student.pk %}"
+      class="btn btn-primary btn-sm">✏️ Edit & Resolve</a>
     <form
       method="POST"
-      action="{% url 'resolve_notification' pk=notif.pk %}"
-      style="display: inline"
-    >
-      {% csrf_token %}
+      action="{%url 'resolve_notification' pk=notif.pk %}"
+      style="display: inline">
+      {%csrf_token %}
       <button type="submit" class="btn btn-success btn-sm">
         ✅ Mark Resolved
       </button>
     </form>
     <form
       method="POST"
-      action="{% url 'dismiss_notification' pk=notif.pk %}"
+      action="{%url 'dismiss_notification' pk=notif.pk %}"
       style="display: inline"
-      onsubmit="return confirm('Dismiss this notification?');"
-    >
-      {% csrf_token %}
+      onsubmit="return confirm('Dismiss this notification?');">
+      {%csrf_token %}
       <button type="submit" class="btn btn-secondary btn-sm">❌ Dismiss</button>
     </form>
   </div>
-  {% endif %}
+  {%endif %}
 </div>
-{% endfor %} {% if page_obj.has_other_pages %}
+{%endfor %} {%if page_obj.has_other_pages %}
 <div class="pagination">
-  {% if page_obj.has_previous %}<a
-    href="?page={{ page_obj.previous_page_number }}&status={{ status_filter }}"
-    >← Prev</a
-  >{% endif %} {% for num in page_obj.paginator.page_range %}{% if
-  page_obj.number == num %}<span class="current">{{ num }}</span>{% elif num >
-  page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}<a
-    href="?page={{ num }}&status={{ status_filter }}"
-    >{{ num }}</a
-  >{% endif %}{% endfor %} {% if page_obj.has_next %}<a
-    href="?page={{ page_obj.next_page_number }}&status={{ status_filter }}"
-    >Next →</a
-  >{% endif %}
+  {%if page_obj.has_previous %}<a
+    href="?page={{page_obj.previous_page_number }}&status={{status_filter }}">← Prev</a>{%endif %} {%for num in page_obj.paginator.page_range %}{%if page_obj.number == num %}<span class="current">{{num }}</span>{%elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}<a
+    href="?page={{num }}&status={{status_filter }}">{{num }}</a>{%endif %}{%endfor %} {%if page_obj.has_next %}<a
+    href="?page={{page_obj.next_page_number }}&status={{status_filter }}">Next →</a>{%endif %}
 </div>
-{% endif %} {% else %}
+{%endif %} {%else %}
 <div class="empty-state card">
   <h3>No notifications</h3>
   <p>No edit requests to show.</p>
 </div>
-{% endif %} {% endblock %}
+{%endif %} {%endblock %}

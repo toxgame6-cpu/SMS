@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>{{ student.full_name }} - Profile</title>
+    <title>{{student.full_name }} - Profile</title>
     <style>
       body {
         font-family: Helvetica, Arial, sans-serif;
@@ -97,10 +97,9 @@
       <p>Student Profile Report</p>
     </div>
 
-    <div class="student-name">{{ student.full_name }}</div>
+    <div class="student-name">{{student.full_name }}</div>
     <div class="student-meta">
-      {{ student.class_name }} | Division {{ student.division }} | Roll No: {{
-      student.roll_no }} | PRN: {{ student.prn }}
+      {{student.class_name }} | Division {{student.division }} | Roll No: {{student.roll_no }} | PRN: {{student.prn }}
     </div>
 
     <div class="section">
@@ -108,27 +107,27 @@
       <table>
         <tr>
           <td>Full Name</td>
-          <td>{{ student.full_name }}</td>
+          <td>{{student.full_name }}</td>
         </tr>
         <tr>
           <td>Roll Number</td>
-          <td>{{ student.roll_no }}</td>
+          <td>{{student.roll_no }}</td>
         </tr>
         <tr>
           <td>PRN</td>
-          <td>{{ student.prn }}</td>
+          <td>{{student.prn }}</td>
         </tr>
         <tr>
           <td>Phone</td>
-          <td>{{ student.phone|default:"Not provided" }}</td>
+          <td>{{student.phone|default:"Not provided" }}</td>
         </tr>
         <tr>
           <td>Email</td>
-          <td>{{ student.email|default:"Not provided" }}</td>
+          <td>{{student.email|default:"Not provided" }}</td>
         </tr>
         <tr>
           <td>Address</td>
-          <td>{{ student.address|default:"Not provided" }}</td>
+          <td>{{student.address|default:"Not provided" }}</td>
         </tr>
       </table>
     </div>
@@ -138,11 +137,11 @@
       <table>
         <tr>
           <td>Parent Name</td>
-          <td>{{ student.parent_name|default:"Not provided" }}</td>
+          <td>{{student.parent_name|default:"Not provided" }}</td>
         </tr>
         <tr>
           <td>Parent Phone</td>
-          <td>{{ student.parent_phone|default:"Not provided" }}</td>
+          <td>{{student.parent_phone|default:"Not provided" }}</td>
         </tr>
       </table>
     </div>
@@ -152,29 +151,28 @@
       <table>
         <tr>
           <td>Class / Course</td>
-          <td>{{ student.class_name }}</td>
+          <td>{{student.class_name }}</td>
         </tr>
         <tr>
           <td>Division</td>
-          <td>{{ student.division }}</td>
+          <td>{{student.division }}</td>
         </tr>
         <tr>
           <td>Year</td>
-          <td>{{ student.year }}</td>
+          <td>{{student.year }}</td>
         </tr>
         <tr>
           <td>Roll Number</td>
-          <td>{{ student.roll_no }}</td>
+          <td>{{student.roll_no }}</td>
         </tr>
         <tr>
           <td>PRN</td>
-          <td>{{ student.prn }}</td>
+          <td>{{student.prn }}</td>
         </tr>
         <tr>
           <td>Status</td>
           <td>
-            {% if student.status == 'normal' %}Normal {% elif student.status ==
-            'marked' %}Edit Marked {% else %}Resolved{% endif %}
+            {%if student.status == 'normal' %}Normal {%elif student.status == 'marked' %}Edit Marked {%else %}Resolved{%endif %}
           </td>
         </tr>
       </table>
@@ -185,25 +183,25 @@
       <table>
         <tr>
           <td>Source File</td>
-          <td>{{ student.file.file_name }}</td>
+          <td>{{student.file.file_name }}</td>
         </tr>
         <tr>
           <td>Academic Year</td>
-          <td>{{ student.file.academic_year }}</td>
+          <td>{{student.file.academic_year }}</td>
         </tr>
         <tr>
           <td>Upload Date</td>
-          <td>{{ student.file.upload_date|date:"d M Y" }}</td>
+          <td>{{student.file.upload_date|date:"d M Y" }}</td>
         </tr>
         <tr>
           <td>Last Modified</td>
-          <td>{{ student.updated_at|date:"d M Y, h:i A" }}</td>
+          <td>{{student.updated_at|date:"d M Y, h:i A" }}</td>
         </tr>
       </table>
     </div>
 
     <div class="footer">
-      Generated on {% now "d M Y, h:i A" %} | Student Management System |
+      Generated on {%now "d M Y, h:i A" %} | Student Management System |
       Confidential
     </div>
   </body>

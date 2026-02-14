@@ -8,8 +8,7 @@
     </div>
     <p
       id="confirmMessage"
-      style="font-size: 14px; color: #475569; margin-bottom: 20px"
-    >
+      style="font-size: 14px; color: #475569; margin-bottom: 20px">
       Are you sure you want to proceed?
     </p>
     <div style="display: flex; gap: 10px; justify-content: flex-end">
@@ -17,7 +16,7 @@
         Cancel
       </button>
       <form id="confirmForm" method="POST" style="display: inline">
-        {% csrf_token %}
+        {%csrf_token %}
         <button type="submit" class="btn btn-danger">Yes, Proceed</button>
       </form>
     </div>

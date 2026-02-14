@@ -892,13 +892,13 @@
     <div class="particles" id="particles"></div>
 
     <!-- Toast Messages -->
-    {% if messages %}
+    {%if messages %}
     <div class="toast-container">
-      {% for message in messages %}
-      <div class="toast" onclick="this.remove()">{{ message }}</div>
-      {% endfor %}
+      {%for message in messages %}
+      <div class="toast" onclick="this.remove()">{{message }}</div>
+      {%endfor %}
     </div>
-    {% endif %} {% block content %}{% endblock %}
+    {%endif %} {%block content %}{%endblock %}
 
     <script>
       // ===== Create Floating Particles =====

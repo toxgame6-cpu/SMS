@@ -1,36 +1,29 @@
-{% extends 'layouts/base.html' %} {% block title %}{{ student.full_name }} -
-Profile{% endblock %} {% block breadcrumb %}Students > {{ student.full_name }}{%
-endblock %} {% block content %}
+{%extends 'layouts/base.html' %} {%block title %}{{student.full_name }} -
+Profile{%endblock %} {%block breadcrumb %}Students > {{student.full_name }}{%endblock %} {%block content %}
 <div class="page-header flex-between">
   <div>
-    <h1>👤 {{ student.full_name }}</h1>
+    <h1>👤 {{student.full_name }}</h1>
     <p>Student Profile</p>
   </div>
   <div>
     <a
-      href="{% url 'student_pdf' pk=student.pk %}"
-      class="btn btn-success btn-sm"
-      >📄 Download PDF</a
-    >
-    {% if request.user.role == 'admin' %}
-    <a href="{% url 'student_edit' pk=student.pk %}" class="btn btn-warning"
-      >✏️ Edit</a
-    >
-    {% endif %}
+      href="{%url 'student_pdf' pk=student.pk %}"
+      class="btn btn-success btn-sm">📄 Download PDF</a>
+    {%if request.user.role == 'admin' %}
+    <a href="{%url 'student_edit' pk=student.pk %}" class="btn btn-warning">✏️ Edit</a>
+    {%endif %}
     <a
-      href="{% url 'student_list' file_id=student.file_id %}"
-      class="btn btn-secondary"
-      >← Back</a
-    >
+      href="{%url 'student_list' file_id=student.file_id %}"
+      class="btn btn-secondary">← Back</a>
   </div>
 </div>
 
 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px">
   <div class="card">
     <div style="text-align: center; margin-bottom: 20px">
-      {% if student.photo %}
+      {%if student.photo %}
       <img
-        src="{{ student.photo.url }}"
+        src="{{student.photo.url }}"
         alt="Photo"
         style="
           width: 100px;
@@ -39,7 +32,7 @@ endblock %} {% block content %}
           object-fit: cover;
         "
       />
-      {% else %}
+      {%else %}
       <div
         style="
           width: 80px;
@@ -53,23 +46,21 @@ endblock %} {% block content %}
           font-size: 28px;
           font-weight: 700;
           margin: 0 auto;
-        "
-      >
-        {{ student.initials }}
+        ">
+        {{student.initials }}
       </div>
-      {% endif %}
-      <h2 style="margin-top: 10px">{{ student.full_name }}</h2>
+      {%endif %}
+      <h2 style="margin-top: 10px">{{student.full_name }}</h2>
       <p style="color: #64748b">
-        {{ student.class_name }} | Div {{ student.division }} | Roll {{
-        student.roll_no }}
+        {{student.class_name }} | Div {{student.division }} | Roll {{student.roll_no }}
       </p>
-      {% if student.status == 'normal' %}
+      {%if student.status == 'normal' %}
       <span class="badge badge-success">✅ Normal</span>
-      {% elif student.status == 'marked' %}
+      {%elif student.status == 'marked' %}
       <span class="badge badge-warning">🚩 Edit Marked</span>
-      {% elif student.status == 'resolved' %}
+      {%elif student.status == 'resolved' %}
       <span class="badge badge-info">✅ Resolved</span>
-      {% endif %}
+      {%endif %}
     </div>
 
     <h3 style="font-size: 14px; color: #64748b; margin: 15px 0 10px">
@@ -78,19 +69,19 @@ endblock %} {% block content %}
     <table>
       <tr>
         <td style="font-weight: 600; width: 130px">Full Name</td>
-        <td>{{ student.full_name }}</td>
+        <td>{{student.full_name }}</td>
       </tr>
       <tr>
         <td style="font-weight: 600">Phone</td>
-        <td>{{ student.phone|default:"Not provided" }}</td>
+        <td>{{student.phone|default:"Not provided" }}</td>
       </tr>
       <tr>
         <td style="font-weight: 600">Email</td>
-        <td>{{ student.email|default:"Not provided" }}</td>
+        <td>{{student.email|default:"Not provided" }}</td>
       </tr>
       <tr>
         <td style="font-weight: 600">Address</td>
-        <td>{{ student.address|default:"Not provided" }}</td>
+        <td>{{student.address|default:"Not provided" }}</td>
       </tr>
     </table>
   </div>
@@ -103,11 +94,11 @@ endblock %} {% block content %}
       <table>
         <tr>
           <td style="font-weight: 600; width: 130px">Parent Name</td>
-          <td>{{ student.parent_name|default:"Not provided" }}</td>
+          <td>{{student.parent_name|default:"Not provided" }}</td>
         </tr>
         <tr>
           <td style="font-weight: 600">Parent Phone</td>
-          <td>{{ student.parent_phone|default:"Not provided" }}</td>
+          <td>{{student.parent_phone|default:"Not provided" }}</td>
         </tr>
       </table>
     </div>
@@ -119,23 +110,23 @@ endblock %} {% block content %}
       <table>
         <tr>
           <td style="font-weight: 600; width: 130px">Class</td>
-          <td>{{ student.class_name }}</td>
+          <td>{{student.class_name }}</td>
         </tr>
         <tr>
           <td style="font-weight: 600">Division</td>
-          <td>{{ student.division }}</td>
+          <td>{{student.division }}</td>
         </tr>
         <tr>
           <td style="font-weight: 600">Year</td>
-          <td>{{ student.year }}</td>
+          <td>{{student.year }}</td>
         </tr>
         <tr>
           <td style="font-weight: 600">Roll Number</td>
-          <td>{{ student.roll_no }}</td>
+          <td>{{student.roll_no }}</td>
         </tr>
         <tr>
           <td style="font-weight: 600">PRN</td>
-          <td>{{ student.prn }}</td>
+          <td>{{student.prn }}</td>
         </tr>
       </table>
     </div>
@@ -147,23 +138,23 @@ endblock %} {% block content %}
       <table>
         <tr>
           <td style="font-weight: 600; width: 130px">Source File</td>
-          <td>{{ student.file.file_name }}</td>
+          <td>{{student.file.file_name }}</td>
         </tr>
         <tr>
           <td style="font-weight: 600">Academic Year</td>
-          <td>{{ student.file.academic_year }}</td>
+          <td>{{student.file.academic_year }}</td>
         </tr>
         <tr>
           <td style="font-weight: 600">Upload Date</td>
-          <td>{{ student.file.upload_date|date:"d M Y" }}</td>
+          <td>{{student.file.upload_date|date:"d M Y" }}</td>
         </tr>
         <tr>
           <td style="font-weight: 600">Last Modified</td>
-          <td>{{ student.updated_at|date:"d M Y, h:i A" }}</td>
+          <td>{{student.updated_at|date:"d M Y, h:i A" }}</td>
         </tr>
         <tr>
           <td style="font-weight: 600">Status</td>
-          <td>{{ student.get_status_display }}</td>
+          <td>{{student.get_status_display }}</td>
         </tr>
       </table>
     </div>
@@ -171,8 +162,7 @@ endblock %} {% block content %}
 </div>
 
 <!-- Edit History for this student -->
-{% if request.user.role == 'admin' %} {% with
-notifications=student.notifications.all %} {% if notifications %}
+{%if request.user.role == 'admin' %} {%with notifications=student.notifications.all %} {%if notifications %}
 <div class="card" style="margin-top: 10px">
   <div class="card-header">
     <h3>📋 Edit Request History</h3>
@@ -188,27 +178,25 @@ notifications=student.notifications.all %} {% if notifications %}
       </tr>
     </thead>
     <tbody>
-      {% for notif in notifications %}
+      {%for notif in notifications %}
       <tr>
         <td style="font-size: 12px">
-          {{ notif.created_at|date:"d M Y, h:i A" }}
+          {{notif.created_at|date:"d M Y, h:i A" }}
         </td>
         <td>
-          {{ notif.requested_by.full_name }} ({{
-          notif.requested_by.get_role_display }})
+          {{notif.requested_by.full_name }} ({{notif.requested_by.get_role_display }})
         </td>
-        <td>{{ notif.get_field_to_edit_display }}</td>
-        <td style="font-size: 13px">{{ notif.remark }}</td>
+        <td>{{notif.get_field_to_edit_display }}</td>
+        <td style="font-size: 13px">{{notif.remark }}</td>
         <td>
           <span
-            class="badge {% if notif.status == 'pending' %}badge-warning{% elif notif.status == 'resolved' %}badge-success{% else %}badge-gray{% endif %}"
-          >
-            {{ notif.get_status_display }}
+            class="badge {%if notif.status == 'pending' %}badge-warning{%elif notif.status == 'resolved' %}badge-success{%else %}badge-gray{%endif %}">
+            {{notif.get_status_display }}
           </span>
         </td>
       </tr>
-      {% endfor %}
+      {%endfor %}
     </tbody>
   </table>
 </div>
-{% endif %} {% endwith %} {% endif %} {% endblock %}
+{%endif %} {%endwith %} {%endif %} {%endblock %}
