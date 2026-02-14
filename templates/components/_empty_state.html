@@ -1,0 +1,14 @@
+<div class="empty-state">
+  <div style="font-size: 48px; margin-bottom: 15px">
+    {{ icon|default:"📭" }}
+  </div>
+  <h3>{{ title|default:"No Data Found" }}</h3>
+  <p style="margin-top: 8px">
+    {{ message|default:"There's nothing here yet." }}
+  </p>
+  {% if action_url %}
+  <a href="{{ action_url }}" class="btn btn-primary mt-10"
+    >{{ action_text|default:"Get Started" }}</a
+  >
+  {% endif %}
+</div>

@@ -1,0 +1,23 @@
+<div class="modal-overlay" id="modal-{{ modal_id|default:'default' }}">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>{{ modal_title|default:"Modal" }}</h3>
+      <button
+        class="modal-close"
+        onclick="closeModal('{{ modal_id|default:'default' }}')"
+      >
+        &times;
+      </button>
+    </div>
+    <div class="modal-body">{% block modal_content %}{% endblock %}</div>
+  </div>
+</div>
+
+<script>
+  function openModal(id) {
+    document.getElementById("modal-" + id).classList.add("active");
+  }
+  function closeModal(id) {
+    document.getElementById("modal-" + id).classList.remove("active");
+  }
+</script>

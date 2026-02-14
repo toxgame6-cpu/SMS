@@ -1,0 +1,125 @@
+{% extends 'layouts/base.html' %} {% block title %}Activity Feed - SMS Portal{%
+endblock %} {% block breadcrumb %}{{ request.user.get_role_display }} > Activity
+Feed{% endblock %} {% block content %}
+<div class="page-header flex-between">
+  <div>
+    <h1>📬 Activity Feed</h1>
+    <p>
+      {% if unread_count > 0 %}
+      <span class="badge badge-danger">{{ unread_count }} unread</span>
+      {% else %} All caught up! ✅ {% endif %}
+    </p>
+  </div>
+  <form
+    method="POST"
+    action="{% url 'mark_all_activities_read' %}"
+    style="display: inline"
+  >
+    {% csrf_token %}
+    <button type="submit" class="btn btn-secondary btn-sm">
+      ✅ Mark All Read
+    </button>
+  </form>
+</div>
+
+<!-- Type Filter -->
+<div style="display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap">
+  <a
+    href="{% url 'activity_feed' %}"
+    class="btn {% if not type_filter %}btn-primary{% else %}btn-secondary{% endif %} btn-sm"
+    >All</a
+  >
+  {% for value, label in type_choices %}
+  <a
+    href="{% url 'activity_feed' %}?type={{ value }}"
+    class="btn {% if type_filter == value %}btn-primary{% else %}btn-secondary{% endif %} btn-sm"
+    >{{ label }}</a
+  >
+  {% endfor %}
+</div>
+
+<div class="card">
+  {% if page_obj.object_list %} {% for activity in page_obj %}
+  <a
+    href="{% url 'mark_activity_read' pk=activity.pk %}"
+    style="display:block; text-decoration:none; color:inherit; padding:15px; border-bottom:1px solid #f1f5f9; transition: background 0.2s; {% if not activity.is_read %}background: #f0f9ff;{% endif %}"
+    onmouseover="this.style.background = '#f8fafc'"
+    onmouseout="
+      this.style.background =
+        '{% if not activity.is_read %}#f0f9ff{% else %}transparent{% endif %}'
+    "
+  >
+    <div style="display: flex; gap: 12px; align-items: flex-start">
+      <!-- Icon -->
+      <div
+        style="width:40px; height:40px; border-radius:10px; background: {{ activity.type_color }}15; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0;"
+      >
+        {{ activity.type_emoji }}
+      </div>
+
+      <!-- Content -->
+      <div style="flex: 1">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+          "
+        >
+          <div>
+            <strong style="font-size: 14px">{{ activity.title }}</strong>
+            {% if not activity.is_read %}
+            <span class="badge badge-danger" style="margin-left: 6px">NEW</span>
+            {% endif %}
+          </div>
+          <span
+            style="
+              font-size: 11px;
+              color: #94a3b8;
+              white-space: nowrap;
+              margin-left: 10px;
+            "
+            >{{ activity.created_at|timesince }} ago</span
+          >
+        </div>
+        <p
+          style="
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 4px;
+            line-height: 1.5;
+          "
+        >
+          {{ activity.message }}
+        </p>
+        {% if activity.created_by %}
+        <p style="font-size: 11px; color: #94a3b8; margin-top: 4px">
+          From: {{ activity.created_by.full_name }}
+        </p>
+        {% endif %}
+      </div>
+    </div>
+  </a>
+  {% endfor %} {% if page_obj.has_other_pages %}
+  <div class="pagination">
+    {% if page_obj.has_previous %}<a
+      href="?page={{ page_obj.previous_page_number }}&type={{ type_filter }}"
+      >← Prev</a
+    >{% endif %} {% for num in page_obj.paginator.page_range %}{% if
+    page_obj.number == num %}<span class="current">{{ num }}</span>{% elif num >
+    page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}<a
+      href="?page={{ num }}&type={{ type_filter }}"
+      >{{ num }}</a
+    >{% endif %}{% endfor %} {% if page_obj.has_next %}<a
+      href="?page={{ page_obj.next_page_number }}&type={{ type_filter }}"
+      >Next →</a
+    >{% endif %}
+  </div>
+  {% endif %} {% else %}
+  <div class="empty-state">
+    <h3>No notifications</h3>
+    <p>You're all caught up! No new notifications.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

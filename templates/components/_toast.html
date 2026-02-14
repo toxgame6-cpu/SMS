@@ -1,0 +1,32 @@
+{% if messages %}
+<div class="toast-container">
+  {% for message in messages %}
+  <div
+    class="toast toast-{{ message.tags }}"
+    onclick="this.remove()"
+    id="toast-{{ forloop.counter }}"
+  >
+    {% if message.tags == 'success' %}✅ {% elif message.tags == 'error' %}❌ {%
+    elif message.tags == 'warning' %}⚠️ {% else %}ℹ️{% endif %} {{ message }}
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+  setTimeout(function () {
+    document.querySelectorAll(".toast").forEach(function (toast) {
+      toast.style.animation = "fadeOut 0.5s ease forwards";
+      setTimeout(() => toast.remove(), 500);
+    });
+  }, 5000);
+</script>
+
+<style>
+  @keyframes fadeOut {
+    to {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+  }
+</style>
+{% endif %}

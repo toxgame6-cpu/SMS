@@ -1,0 +1,99 @@
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="logo-container">🎓</div>
+    <h2>SMS Portal</h2>
+    <span class="role-badge">Head of Department</span>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section">Main</div>
+    <a
+      href="{% url 'hod_dashboard' %}"
+      class="{% if request.path == '/hod-panel/' %}active{% endif %}"
+    >
+      <span class="nav-icon">📊</span>
+      <span class="nav-text">Dashboard</span>
+    </a>
+
+    <div class="nav-section">Students</div>
+    <a
+      href="{% url 'file_list' %}"
+      class="{% if 'files' in request.path %}active{% endif %}"
+    >
+      <span class="nav-icon">📁</span>
+      <span class="nav-text">Student Files</span>
+    </a>
+
+    <div class="nav-section">Requests</div>
+    <a
+      href="{% url 'my_requests' %}"
+      class="{% if 'my-requests' in request.path %}active{% endif %}"
+    >
+      <span class="nav-icon">📋</span>
+      <span class="nav-text">My Edit Requests</span>
+    </a>
+
+    <div class="nav-section">Communication</div>
+    <a
+      href="{% url 'announcement_list' %}"
+      class="{% if 'announcements' in request.path %}active{% endif %}"
+    >
+      <span class="nav-icon">📢</span>
+      <span class="nav-text">Announcements</span>
+      {% if unread_announcement_count > 0 %}
+      <span class="nav-badge">{{ unread_announcement_count }}</span>
+      {% endif %}
+    </a>
+    <a href="{% url 'announcement_create' %}">
+      <span class="nav-icon">➕</span>
+      <span class="nav-text">New Announcement</span>
+    </a>
+    <a
+      href="{% url 'activity_feed' %}"
+      class="{% if 'activity' in request.path %}active{% endif %}"
+    >
+      <span class="nav-icon">🔔</span>
+      <span class="nav-text">Activity Feed</span>
+      {% if unread_activity_count > 0 %}
+      <span class="nav-badge">{{ unread_activity_count }}</span>
+      {% endif %}
+    </a>
+
+    <div class="nav-section">Account</div>
+    <a
+      href="{% url 'profile' %}"
+      class="{% if 'profile' in request.path %}active{% endif %}"
+    >
+      <span class="nav-icon">👤</span>
+      <span class="nav-text">My Profile</span>
+    </a>
+    <a
+      href="{% url 'change_password' %}"
+      class="{% if 'change-password' in request.path %}active{% endif %}"
+    >
+      <span class="nav-icon">🔑</span>
+      <span class="nav-text">Change Password</span>
+    </a>
+  </nav>
+
+  <div class="sidebar-user">
+    <a href="{% url 'profile' %}" style="text-decoration: none">
+      <div class="user-card">
+        {% if request.user.photo %}
+        <img
+          src="{{ request.user.photo.url }}"
+          alt=""
+          class="user-avatar"
+          style="object-fit: cover"
+        />
+        {% else %}
+        <div class="user-avatar">{{ request.user.initials }}</div>
+        {% endif %}
+        <div>
+          <div class="user-name">{{ request.user.full_name }}</div>
+          <div class="user-role">{{ request.user.get_role_display }}</div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

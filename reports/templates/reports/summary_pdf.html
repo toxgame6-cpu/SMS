@@ -1,0 +1,266 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Summary Report</title>
+    <style>
+      body {
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        color: #333;
+        padding: 20px;
+      }
+      .header {
+        text-align: center;
+        border-bottom: 3px solid #4f46e5;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+      }
+      .header h1 {
+        font-size: 22px;
+        color: #4f46e5;
+        margin: 0;
+      }
+      .header p {
+        font-size: 11px;
+        color: #666;
+        margin: 5px 0 0;
+      }
+      .section {
+        margin-bottom: 25px;
+      }
+      .section-title {
+        font-size: 14px;
+        font-weight: bold;
+        color: #4f46e5;
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+      }
+      .summary-grid {
+        display: table;
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      .summary-item {
+        display: table-cell;
+        text-align: center;
+        padding: 10px;
+        width: 25%;
+      }
+      .summary-item .number {
+        font-size: 24px;
+        font-weight: bold;
+        color: #4f46e5;
+      }
+      .summary-item .text {
+        font-size: 11px;
+        color: #666;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+      }
+      table th {
+        background: #f1f5f9;
+        padding: 8px;
+        font-size: 11px;
+        text-align: left;
+        border-bottom: 2px solid #e2e8f0;
+      }
+      table td {
+        padding: 6px 8px;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 11px;
+      }
+      .footer {
+        text-align: center;
+        margin-top: 30px;
+        padding-top: 10px;
+        border-top: 1px solid #e2e8f0;
+        font-size: 10px;
+        color: #94a3b8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Student Management System</h1>
+      <p>
+        Summary Report | Generated on {{ generated_at|date:"d M Y, h:i A" }}
+      </p>
+    </div>
+
+    <!-- Summary -->
+    <div class="section">
+      <div class="section-title">📊 System Summary</div>
+      <table>
+        <tr>
+          <td style="font-weight: bold; width: 200px">Total Students</td>
+          <td>{{ summary.total_students }}</td>
+          <td style="font-weight: bold; width: 200px">Total Files</td>
+          <td>{{ summary.total_files }}</td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold">Total Teachers</td>
+          <td>{{ summary.total_teachers }}</td>
+          <td style="font-weight: bold">Total Guardians</td>
+          <td>{{ summary.total_guardians }}</td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold">Total HODs</td>
+          <td>{{ summary.total_hods }}</td>
+          <td style="font-weight: bold">Pending Requests</td>
+          <td>{{ summary.pending_notifications }}</td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold">Announcements</td>
+          <td>{{ summary.total_announcements }}</td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Class-wise -->
+    <div class="section">
+      <div class="section-title">🎓 Students by Class</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Class</th>
+            <th>Student Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in class_wise %}
+          <tr>
+            <td>{{ item.class_name }}</td>
+            <td>{{ item.count }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="2">No data available</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Division-wise -->
+    <div class="section">
+      <div class="section-title">📊 Students by Division</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Division</th>
+            <th>Student Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in division_wise %}
+          <tr>
+            <td>Division {{ item.division }}</td>
+            <td>{{ item.count }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="2">No data available</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Year-wise -->
+    <div class="section">
+      <div class="section-title">📅 Students by Year</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Student Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in year_wise %}
+          <tr>
+            <td>{{ item.year }}</td>
+            <td>{{ item.count }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="2">No data available</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Staff by Department -->
+    <div class="section">
+      <div class="section-title">🏢 Staff by Department</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Department</th>
+            <th>Role</th>
+            <th>Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in staff_by_dept %}
+          <tr>
+            <td>{{ item.department }}</td>
+            <td>{{ item.role }}</td>
+            <td>{{ item.count }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="3">No data available</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Recent Files -->
+    <div class="section">
+      <div class="section-title">📤 Recent File Uploads</div>
+      <table>
+        <thead>
+          <tr>
+            <th>File Name</th>
+            <th>Class</th>
+            <th>Division</th>
+            <th>Year</th>
+            <th>Students</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for file in recent_files %}
+          <tr>
+            <td>{{ file.file_name }}</td>
+            <td>{{ file.class_name }}</td>
+            <td>{{ file.division }}</td>
+            <td>{{ file.year }}</td>
+            <td>{{ file.total_students }}</td>
+            <td>{{ file.upload_date|date:"d M Y" }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6">No files uploaded</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="footer">
+      This is an auto-generated report from Student Management System |
+      Confidential
+    </div>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+ 
+/* Tailwind CSS Input File */
+/* Only needed if you're using Tailwind CSS build process */
+/* If not using Tailwind, leave this empty or remove it */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

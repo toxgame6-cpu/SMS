@@ -1,0 +1,11 @@
+<!-- Before (causes 46 errors) -->
+<style>
+  .something { color: {{ variable }}; }
+</style>
+
+<!-- After (0 errors, code unchanged) -->
+<!-- stylelint-disable -->
+<style>
+  .something { color: {{ variable }}; }
+</style>
+<!-- stylelint-enable -->

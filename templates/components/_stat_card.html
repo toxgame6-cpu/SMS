@@ -1,0 +1,12 @@
+<div class="stat-card">
+  <div class="icon">{{ icon|default:"📊" }}</div>
+  <div class="value">{{ value|default:"0" }}</div>
+  <div class="label">{{ label|default:"Stat" }}</div>
+  {% if link %}
+  <a
+    href="{{ link }}"
+    style="font-size: 12px; color: #4f46e5; text-decoration: none"
+    >{{ link_text|default:"View All →" }}</a
+  >
+  {% endif %}
+</div>

@@ -1,0 +1,36 @@
+<div class="modal-overlay" id="confirmDialog">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>⚠️ Confirm Action</h3>
+      <button class="modal-close" onclick="closeConfirmDialog()">
+        &times;
+      </button>
+    </div>
+    <p
+      id="confirmMessage"
+      style="font-size: 14px; color: #475569; margin-bottom: 20px"
+    >
+      Are you sure you want to proceed?
+    </p>
+    <div style="display: flex; gap: 10px; justify-content: flex-end">
+      <button class="btn btn-secondary" onclick="closeConfirmDialog()">
+        Cancel
+      </button>
+      <form id="confirmForm" method="POST" style="display: inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, Proceed</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showConfirmDialog(message, actionUrl) {
+    document.getElementById("confirmMessage").textContent = message;
+    document.getElementById("confirmForm").action = actionUrl;
+    document.getElementById("confirmDialog").classList.add("active");
+  }
+  function closeConfirmDialog() {
+    document.getElementById("confirmDialog").classList.remove("active");
+  }
+</script>
