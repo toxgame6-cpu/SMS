@@ -2,7 +2,6 @@ FROM python:3.11-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV PORT=8080
 
 WORKDIR /app
 
@@ -24,4 +23,7 @@ COPY . .
 
 RUN python manage.py collectstatic --noinput 2>/dev/null || true
 
-CMD ["sh", "-c", "python manage.py migrate 2>&1 && (python manage.py create_admin 2>&1 || true) && echo PORT=$PORT && exec gunicorn sms_project.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120 --log-level debug --capture-output"]
+COPY start.sh .
+RUN chmod +x start.sh
+
+CMD ["./start.sh"]
