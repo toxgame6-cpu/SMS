@@ -1,0 +1,13 @@
+providers = ["python"]
+
+[phases.setup]
+nixPkgs = ["python311Full"]
+
+[phases.install]
+cmds = ["pip install -r requirements.txt"]
+
+[phases.build]
+cmds = ["python manage.py collectstatic --noinput"]
+
+[start]
+cmd = "python manage.py migrate && python manage.py create_admin && gunicorn sms_project.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --timeout 120"

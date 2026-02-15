@@ -1,35 +1,22 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-*.egg-info/
-dist/
-build/
-eggs/
-*.egg
-
-# Django
+.env
+*.env.local
 db.sqlite3
 db.sqlite3-journal
-media/
 staticfiles/
-
-# Environment
-.env
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
 venv/
-env/
 .venv/
-
-# IDE
+env/
 .vscode/
 .idea/
 *.swp
-*.swo
-
-# OS
 .DS_Store
 Thumbs.db
-
-# Node (for Tailwind)
-node_modules/ 
+node_modules/
+test_students_*.xlsx
+package.json
+package-lock.json
+tailwind.config.js
