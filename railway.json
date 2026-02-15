@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn sms_project.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --timeout 120",
+    "startCommand": "python3 manage.py migrate && python3 manage.py collectstatic --noinput && python3 manage.py create_admin && gunicorn sms_project.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --timeout 120",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }

@@ -1,1 +1,1 @@
-web: python manage.py migrate && gunicorn sms_project.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --timeout 120
+web: python3 manage.py migrate && python3 manage.py collectstatic --noinput && python3 manage.py create_admin && gunicorn sms_project.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --timeout 120
