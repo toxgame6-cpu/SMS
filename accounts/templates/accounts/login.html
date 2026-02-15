@@ -1,211 +1,211 @@
-{%extends 'layouts/base_auth.html' %}
-{%block content %}
+{% extends 'layouts/base_auth.html' %}
+{% block content %}
 <!-- Left Panel - Role Showcase -->
 <div class="left-panel">
-    <div class="role-showcase">
-        <div class="role-content" id="roleContent">
-            <div class="role-icon-3d">
-                <div class="role-icon-inner role-default" id="roleIconInner">🎓</div>
-            </div>
-            <h2 class="role-title" id="roleTitle">Student Management System</h2>
-            <p class="role-description" id="roleDesc">
-                A comprehensive platform for managing student records, permissions, and
-                academic data with enterprise-grade security.
-            </p>
-            <div class="role-features" id="roleFeatures">
-                <div class="feature-item">
-                    <div class="feature-icon">🔒</div>
-                    <span>Enterprise-grade security with encryption</span>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">📊</div>
-                    <span>Real-time analytics and reporting</span>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">🔔</div>
-                    <span>Smart notification system</span>
-                </div>
-            </div>
+  <div class="role-showcase">
+    <div class="role-content" id="roleContent">
+      <div class="role-icon-3d">
+        <div class="role-icon-inner role-default" id="roleIconInner">🎓</div>
+      </div>
+      <h2 class="role-title" id="roleTitle">Student Management System</h2>
+      <p class="role-description" id="roleDesc">
+        A comprehensive platform for managing student records, permissions, and
+        academic data with enterprise-grade security.
+      </p>
+      <div class="role-features" id="roleFeatures">
+        <div class="feature-item">
+          <div class="feature-icon">🔒</div>
+          <span>Enterprise-grade security with encryption</span>
         </div>
+        <div class="feature-item">
+          <div class="feature-icon">📊</div>
+          <span>Real-time analytics and reporting</span>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🔔</div>
+          <span>Smart notification system</span>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <!-- Right Panel - Login Form -->
 <div class="right-panel">
-    <div class="login-card">
-        <div class="login-header">
-            <div class="login-logo">🎓</div>
-            <h1>Welcome Back</h1>
-            <p>Sign in to continue to your dashboard</p>
-        </div>
-
-        {%if error_message %}
-        <div class="error-msg">
-            <span>⚠️</span>
-            <span>{{error_message }}</span>
-        </div>
-        {%endif %}
-
-        <form method="POST" action="{%url 'login' %}" id="loginForm">
-            {%csrf_token %}
-
-            <div class="form-group">
-                <label>Login As</label>
-                <div class="role-select-wrapper input-wrapper">
-                    <select name="role" class="form-input" required id="roleSelect" onchange="updateRoleShowcase(this.value)">
-                        <option value="">-- Select Your Role --</option>
-                        <option value="admin" {%if form.role.value == "admin" %}selected{%endif %}>🛡️ Administrator</option>
-                        <option value="hod" {%if form.role.value == "hod" %}selected{%endif %}>👨‍💼 Head of Department</option>
-                        <option value="teacher" {%if form.role.value == "teacher" %}selected{%endif %}>👨‍🏫 Teacher</option>
-                        <option value="guardian" {%if form.role.value == "guardian" %}selected{%endif %}>🧑‍🤝‍🧑 Teacher Guardian</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Username / Email</label>
-                <div class="input-wrapper">
-                    <input type="text" name="username" class="form-input"
-                        placeholder="Enter your username or email"
-                        value="{{form.username.value|default:'' }}"
-                        required autocomplete="username" />
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Password</label>
-                <div class="password-wrapper input-wrapper">
-                    <input type="password" name="password" class="form-input"
-                        placeholder="Enter your password" required
-                        id="passwordField" autocomplete="current-password"
-                        style="padding-right: 45px;" />
-                    <button type="button" class="password-toggle" onclick="togglePassword()">👁️</button>
-                </div>
-            </div>
-
-            <div class="options-row">
-                <label>
-                    <div class="custom-checkbox">
-                        <input type="checkbox" name="remember_me" />
-                        <div class="checkmark"></div>
-                    </div>
-                    Remember me
-                </label>
-                <span class="forgot-link" onclick="alert('Please contact your administrator to reset your password.')">
-                    Forgot Password?
-                </span>
-            </div>
-
-            <button type="submit" class="btn-login" id="loginBtn">
-                <span id="loginBtnText">🔓 Sign In</span>
-            </button>
-        </form>
-
-        <div class="login-footer">
-            <p>© 2025 Student Management System</p>
-            <p style="margin-top: 4px;">Powered by Django • Secured & Encrypted</p>
-        </div>
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-logo">🎓</div>
+      <h1>Welcome Back</h1>
+      <p>Sign in to continue to your dashboard</p>
     </div>
+
+    {% if error_message %}
+    <div class="error-msg">
+      <span>⚠️</span>
+      <span>{{ error_message }}</span>
+    </div>
+    {% endif %}
+
+    <form method="POST" action="{% url 'login' %}" id="loginForm">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label>Login As</label>
+        <div class="input-wrapper">
+          <select name="role" class="form-input" required id="roleSelect" onchange="updateRoleShowcase(this.value)">
+            <option value="">-- Select Your Role --</option>
+            <option value="admin" {% if form.role.value == "admin" %}selected{% endif %}>🛡️ Administrator</option>
+            <option value="hod" {% if form.role.value == "hod" %}selected{% endif %}>👨‍💼 Head of Department</option>
+            <option value="teacher" {% if form.role.value == "teacher" %}selected{% endif %}>👨‍🏫 Teacher</option>
+            <option value="guardian" {% if form.role.value == "guardian" %}selected{% endif %}>🧑‍🤝‍🧑 Teacher Guardian</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Username / Email</label>
+        <div class="input-wrapper">
+          <input type="text" name="username" class="form-input"
+            placeholder="Enter your username or email"
+            value="{{ form.username.value|default:'' }}"
+            required autocomplete="username" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <div class="password-wrapper input-wrapper">
+          <input type="password" name="password" class="form-input"
+            placeholder="Enter your password" required
+            id="passwordField" autocomplete="current-password"
+            style="padding-right: 45px;" />
+          <button type="button" class="password-toggle" onclick="togglePassword()" aria-label="Toggle password visibility">👁️</button>
+        </div>
+      </div>
+
+      <div class="options-row">
+        <label>
+          <div class="custom-checkbox">
+            <input type="checkbox" name="remember_me" />
+            <div class="checkmark"></div>
+          </div>
+          Remember me
+        </label>
+        <span class="forgot-link" onclick="alert('Please contact your administrator to reset your password.')">
+          Forgot Password?
+        </span>
+      </div>
+
+      <button type="submit" class="btn-login" id="loginBtn">
+        <span id="loginBtnText">🔓 Sign In</span>
+      </button>
+    </form>
+
+    <div class="login-footer">
+      <p>© 2025 Student Management System</p>
+      <p style="margin-top: 4px;">Powered by Django • Secured & Encrypted</p>
+    </div>
+  </div>
 </div>
 
 <script>
 const roleData = {
-    '': {
-        icon: '🎓', colorClass: 'role-default',
-        title: 'Student Management System',
-        description: 'A comprehensive platform for managing student records, permissions, and academic data with enterprise-grade security.',
-        features: [
-            {icon: '🔒', text: 'Enterprise-grade security with encryption'},
-            {icon: '📊', text: 'Real-time analytics and reporting'},
-            {icon: '🔔', text: 'Smart notification system'}
-        ]
-    },
-    'admin': {
-        icon: '🛡️', colorClass: 'role-admin',
-        title: 'Administrator Portal',
-        description: 'Full system control with advanced analytics, user management, security monitoring, and comprehensive reporting tools.',
-        features: [
-            {icon: '👥', text: 'Manage all users, roles & permissions'},
-            {icon: '📁', text: 'Upload & manage student files'},
-            {icon: '📊', text: 'View audit logs & security reports'},
-            {icon: '📢', text: 'Broadcast announcements system-wide'},
-            {icon: '🔐', text: 'Control access & monitor activity'}
-        ]
-    },
-    'hod': {
-        icon: '👨‍💼', colorClass: 'role-hod',
-        title: 'Head of Department',
-        description: 'Oversee all student files in your department, manage announcements, and submit edit requests for academic records.',
-        features: [
-            {icon: '📁', text: 'View all student files & records'},
-            {icon: '✏️', text: 'Submit mark edit requests'},
-            {icon: '📢', text: 'Create department announcements'},
-            {icon: '📋', text: 'Track edit request status'}
-        ]
-    },
-    'teacher': {
-        icon: '👨‍🏫', colorClass: 'role-teacher',
-        title: 'Teacher Dashboard',
-        description: 'Access your assigned student files, submit edit requests for marks, and stay updated with announcements.',
-        features: [
-            {icon: '📁', text: 'View assigned student files'},
-            {icon: '✏️', text: 'Request mark edits with justification'},
-            {icon: '📢', text: 'Read announcements & updates'},
-            {icon: '🔔', text: 'Get notified on request approvals'}
-        ]
-    },
-    'guardian': {
-        icon: '🧑‍🤝‍🧑', colorClass: 'role-guardian',
-        title: 'Teacher Guardian Panel',
-        description: 'Monitor assigned student files, submit edit requests, and collaborate with teachers on student records.',
-        features: [
-            {icon: '📁', text: 'Access assigned student records'},
-            {icon: '✏️', text: 'Submit edit requests for review'},
-            {icon: '📢', text: 'Stay updated with announcements'},
-            {icon: '📋', text: 'Track your request history'}
-        ]
-    }
+  '': {
+    icon: '🎓', colorClass: 'role-default',
+    title: 'Student Management System',
+    description: 'A comprehensive platform for managing student records, permissions, and academic data with enterprise-grade security.',
+    features: [
+      {icon: '🔒', text: 'Enterprise-grade security with encryption'},
+      {icon: '📊', text: 'Real-time analytics and reporting'},
+      {icon: '🔔', text: 'Smart notification system'}
+    ]
+  },
+  'admin': {
+    icon: '🛡️', colorClass: 'role-admin',
+    title: 'Administrator Portal',
+    description: 'Full system control with advanced analytics, user management, security monitoring, and comprehensive reporting tools.',
+    features: [
+      {icon: '👥', text: 'Manage all users, roles & permissions'},
+      {icon: '📁', text: 'Upload & manage student files'},
+      {icon: '📊', text: 'View audit logs & security reports'},
+      {icon: '📢', text: 'Broadcast announcements system-wide'},
+      {icon: '🔐', text: 'Control access & monitor activity'}
+    ]
+  },
+  'hod': {
+    icon: '👨‍💼', colorClass: 'role-hod',
+    title: 'Head of Department',
+    description: 'Oversee all student files in your department, manage announcements, and submit edit requests for academic records.',
+    features: [
+      {icon: '📁', text: 'View all student files & records'},
+      {icon: '✏️', text: 'Submit mark edit requests'},
+      {icon: '📢', text: 'Create department announcements'},
+      {icon: '📋', text: 'Track edit request status'}
+    ]
+  },
+  'teacher': {
+    icon: '👨‍🏫', colorClass: 'role-teacher',
+    title: 'Teacher Dashboard',
+    description: 'Access your assigned student files, submit edit requests for marks, and stay updated with announcements.',
+    features: [
+      {icon: '📁', text: 'View assigned student files'},
+      {icon: '✏️', text: 'Request mark edits with justification'},
+      {icon: '📢', text: 'Read announcements & updates'},
+      {icon: '🔔', text: 'Get notified on request approvals'}
+    ]
+  },
+  'guardian': {
+    icon: '🧑‍🤝‍🧑', colorClass: 'role-guardian',
+    title: 'Teacher Guardian Panel',
+    description: 'Monitor assigned student files, submit edit requests, and collaborate with teachers on student records.',
+    features: [
+      {icon: '📁', text: 'Access assigned student records'},
+      {icon: '✏️', text: 'Submit edit requests for review'},
+      {icon: '📢', text: 'Stay updated with announcements'},
+      {icon: '📋', text: 'Track your request history'}
+    ]
+  }
 };
 
 function updateRoleShowcase(role) {
-    const content = document.getElementById('roleContent');
-    const data = roleData[role] || roleData[''];
-    content.classList.add('changing');
-    setTimeout(() => {
-        const iconInner = document.getElementById('roleIconInner');
-        iconInner.textContent = data.icon;
-        iconInner.className = 'role-icon-inner ' + data.colorClass;
-        document.getElementById('roleTitle').textContent = data.title;
-        document.getElementById('roleDesc').textContent = data.description;
-        const featuresContainer = document.getElementById('roleFeatures');
-        featuresContainer.innerHTML = data.features.map(f => `
-            <div class="feature-item">
-                <div class="feature-icon">${f.icon}</div>
-                <span>${f.text}</span>
-            </div>
-        `).join('');
-        content.classList.remove('changing');
-    }, 300);
+  const content = document.getElementById('roleContent');
+  const data = roleData[role] || roleData[''];
+  content.classList.add('changing');
+  setTimeout(() => {
+    const iconInner = document.getElementById('roleIconInner');
+    iconInner.textContent = data.icon;
+    iconInner.className = 'role-icon-inner ' + data.colorClass;
+    document.getElementById('roleTitle').textContent = data.title;
+    document.getElementById('roleDesc').textContent = data.description;
+    const featuresContainer = document.getElementById('roleFeatures');
+    featuresContainer.innerHTML = data.features.map(f => `
+      <div class="feature-item">
+        <div class="feature-icon">${f.icon}</div>
+        <span>${f.text}</span>
+      </div>
+    `).join('');
+    content.classList.remove('changing');
+  }, 300);
 }
 
 function togglePassword() {
-    const field = document.getElementById('passwordField');
-    const btn = field.nextElementSibling;
-    if (field.type === 'password') {
-        field.type = 'text';
-        btn.textContent = '🙈';
-    } else {
-        field.type = 'password';
-        btn.textContent = '👁️';
-    }
+  const field = document.getElementById('passwordField');
+  const btn = field.nextElementSibling;
+  if (field.type === 'password') {
+    field.type = 'text';
+    btn.textContent = '🙈';
+  } else {
+    field.type = 'password';
+    btn.textContent = '👁️';
+  }
 }
 
 document.getElementById('loginForm').addEventListener('submit', function() {
-    const btn = document.getElementById('loginBtn');
-    const btnText = document.getElementById('loginBtnText');
-    btn.disabled = true;
-    btn.style.opacity = '0.8';
-    btnText.innerHTML = '<span style="display:inline-block;animation:spin 1s linear infinite;">⏳</span> Signing in...';
+  const btn = document.getElementById('loginBtn');
+  const btnText = document.getElementById('loginBtnText');
+  btn.disabled = true;
+  btn.style.opacity = '0.8';
+  btnText.innerHTML = '<span style="display:inline-block;animation:spin 1s linear infinite;">⏳</span> Signing in...';
 });
 
 const initialRole = document.getElementById('roleSelect').value;
@@ -215,4 +215,4 @@ const style = document.createElement('style');
 style.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
 document.head.appendChild(style);
 </script>
-{%endblock %}
+{% endblock %}

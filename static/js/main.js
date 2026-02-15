@@ -1,279 +1,194 @@
-// ===== MAIN.JS - Complete Application Logic =====
+// =============================================================
+// STUDENT MANAGEMENT SYSTEM — Main JavaScript
+// =============================================================
 
-document.addEventListener('DOMContentLoaded', function () {
+// ===== THEME MANAGEMENT =====
+function getStoredTheme() {
+  return localStorage.getItem('sms-theme') || 'light';
+}
 
-    // ===== THEME MANAGEMENT =====
-    initTheme();
-
-    // ===== AUTO-HIDE TOASTS =====
-    setTimeout(function () {
-        document.querySelectorAll('.toast').forEach(function (toast, i) {
-            setTimeout(function () {
-                toast.style.transition = 'all 0.35s ease';
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateX(100%)';
-                setTimeout(function () { toast.remove(); }, 350);
-            }, i * 100);
-        });
-    }, 5000);
-
-    // ===== RIPPLE EFFECT =====
-    document.querySelectorAll('.btn, .stat-card').forEach(function (el) {
-        el.addEventListener('click', createRipple);
-    });
-
-    // ===== 3D TILT ON STAT CARDS =====
-    document.querySelectorAll('.stat-card').forEach(function (card) {
-        card.addEventListener('mousemove', function (e) {
-            var rect = card.getBoundingClientRect();
-            var x = e.clientX - rect.left;
-            var y = e.clientY - rect.top;
-            var rx = ((y - rect.height / 2) / rect.height) * -6;
-            var ry = ((x - rect.width / 2) / rect.width) * 6;
-            card.style.transform = 'perspective(800px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-4px)';
-        });
-
-        card.addEventListener('mouseleave', function () {
-            card.style.transition = 'transform 0.4s ease';
-            card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateY(0)';
-        });
-
-        card.addEventListener('mouseenter', function () {
-            card.style.transition = 'transform 0.08s ease';
-        });
-    });
-
-    // ===== ANIMATE COUNTERS =====
-    document.querySelectorAll('.stat-card .value').forEach(function (el) {
-        var val = parseInt(el.textContent) || 0;
-        if (val > 0) {
-            el.textContent = '0';
-            animateCounter(el, 0, val, 700);
-        }
-    });
-
-    // ===== STAGGER ANIMATION =====
-    var cards = document.querySelectorAll('.card, .stat-card');
-    var observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry, idx) {
-            if (entry.isIntersecting) {
-                setTimeout(function () {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }, idx * 60);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.05 });
-
-    cards.forEach(function (card) {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(16px)';
-        card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-        observer.observe(card);
-    });
-
-    // ===== KEYBOARD SHORTCUTS =====
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') {
-            document.querySelectorAll('.modal-overlay.active').forEach(function (m) {
-                m.classList.remove('active');
-            });
-            closeMobileSidebar();
-        }
-    });
-
-    // ===== SIDEBAR STATE RESTORE =====
-    restoreSidebarState();
-
-    // ===== SMOOTH PAGE LOAD =====
-    document.body.style.opacity = '1';
-});
-
-
-// ===== THEME FUNCTIONS =====
-
-function initTheme() {
-    var saved = localStorage.getItem('sms-theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', saved);
-    updateThemeIcon(saved);
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('sms-theme', theme);
+  const icon = document.getElementById('themeIcon');
+  if (icon) {
+    icon.textContent = theme === 'dark' ? '🌙' : '☀️';
+  }
 }
 
 function toggleTheme() {
-    var current = document.documentElement.getAttribute('data-theme');
-    var next = current === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('sms-theme', next);
-    updateThemeIcon(next);
+  const current = document.documentElement.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  setTheme(next);
 }
 
-function updateThemeIcon(theme) {
-    var icon = document.getElementById('themeIcon');
-    if (icon) {
-        icon.textContent = theme === 'dark' ? '☀️' : '🌙';
-    }
-    var btn = document.getElementById('themeBtn');
-    if (btn) {
-        btn.title = theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-    }
-}
+// Initialize theme on load
+document.addEventListener('DOMContentLoaded', function () {
+  setTheme(getStoredTheme());
+});
 
-
-// ===== SIDEBAR FUNCTIONS =====
-
+// ===== SIDEBAR =====
 function toggleSidebarCollapse() {
-    var sidebar = document.getElementById('sidebar');
-    if (!sidebar) return;
+  const sidebar = document.getElementById('sidebar');
+  const collapseIcon = document.getElementById('collapseIcon');
 
+  if (sidebar) {
     sidebar.classList.toggle('collapsed');
-    var isCollapsed = sidebar.classList.contains('collapsed');
-    localStorage.setItem('sms-sidebar-collapsed', isCollapsed);
 
-    var icon = document.getElementById('collapseIcon');
-    if (icon) {
-        icon.textContent = isCollapsed ? '▶' : '◀';
+    if (collapseIcon) {
+      collapseIcon.textContent = sidebar.classList.contains('collapsed') ? '▶' : '◀';
     }
-}
 
-function restoreSidebarState() {
-    if (window.innerWidth <= 768) return;
-
-    var collapsed = localStorage.getItem('sms-sidebar-collapsed') === 'true';
-    var sidebar = document.getElementById('sidebar');
-    if (sidebar && collapsed) {
-        sidebar.classList.add('collapsed');
-        var icon = document.getElementById('collapseIcon');
-        if (icon) icon.textContent = '▶';
-    }
+    localStorage.setItem('sms-sidebar-collapsed', sidebar.classList.contains('collapsed'));
+  }
 }
 
 function toggleMobileSidebar() {
-    var sidebar = document.getElementById('sidebar');
-    var overlay = document.getElementById('sidebarOverlay');
-    if (sidebar) {
-        sidebar.classList.toggle('open');
-        if (overlay) overlay.classList.toggle('active', sidebar.classList.contains('open'));
-    }
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+
+  if (sidebar) {
+    sidebar.classList.toggle('open');
+  }
+  if (overlay) {
+    overlay.classList.toggle('active');
+  }
 }
 
 function closeMobileSidebar() {
-    var sidebar = document.getElementById('sidebar');
-    var overlay = document.getElementById('sidebarOverlay');
-    if (sidebar) sidebar.classList.remove('open');
-    if (overlay) overlay.classList.remove('active');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+
+  if (sidebar) sidebar.classList.remove('open');
+  if (overlay) overlay.classList.remove('active');
 }
 
+// Restore sidebar state
+document.addEventListener('DOMContentLoaded', function () {
+  const isCollapsed = localStorage.getItem('sms-sidebar-collapsed') === 'true';
+  const sidebar = document.getElementById('sidebar');
+  const collapseIcon = document.getElementById('collapseIcon');
 
-// ===== RIPPLE EFFECT =====
+  if (isCollapsed && sidebar && window.innerWidth > 768) {
+    sidebar.classList.add('collapsed');
+    if (collapseIcon) collapseIcon.textContent = '▶';
+  }
 
-function createRipple(e) {
-    var el = this;
-    var ripple = document.createElement('span');
-    var rect = el.getBoundingClientRect();
-    var size = Math.max(rect.width, rect.height);
+  // Show collapse button on desktop
+  const collapseBtn = document.getElementById('collapseBtn');
+  if (collapseBtn && window.innerWidth > 768) {
+    collapseBtn.style.display = 'flex';
+  }
+});
 
-    ripple.style.cssText =
-        'position:absolute;border-radius:50%;pointer-events:none;' +
-        'width:' + size + 'px;height:' + size + 'px;' +
-        'left:' + (e.clientX - rect.left - size / 2) + 'px;' +
-        'top:' + (e.clientY - rect.top - size / 2) + 'px;' +
-        'background:rgba(255,255,255,0.12);transform:scale(0);' +
-        'animation:rippleAnim 0.5s ease-out;';
-
-    el.style.position = 'relative';
-    el.style.overflow = 'hidden';
-    el.appendChild(ripple);
-    setTimeout(function () { ripple.remove(); }, 500);
+// ===== TOAST MANAGEMENT =====
+function dismissToast(toastEl) {
+  if (!toastEl) return;
+  toastEl.style.animation = 'toastSlideOut 0.3s ease forwards';
+  setTimeout(() => toastEl.remove(), 300);
 }
 
-// Add ripple animation keyframes
-var rippleStyle = document.createElement('style');
-rippleStyle.textContent = '@keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }';
-document.head.appendChild(rippleStyle);
+// Auto-dismiss toasts
+document.addEventListener('DOMContentLoaded', function () {
+  setTimeout(function () {
+    document.querySelectorAll('.toast').forEach(function (toast, index) {
+      setTimeout(() => dismissToast(toast), index * 100);
+    });
+  }, 5000);
+});
 
+// ===== BUTTON RIPPLE EFFECT =====
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.btn').forEach(function (btn) {
+    btn.addEventListener('mousedown', function (e) {
+      // Remove old ripples
+      this.querySelectorAll('.ripple').forEach(r => r.remove());
 
-// ===== COUNTER ANIMATION =====
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
 
-function animateCounter(el, start, end, duration) {
-    var startTime = performance.now();
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
 
-    function update(now) {
-        var elapsed = now - startTime;
-        var progress = Math.min(elapsed / duration, 1);
-        var eased = 1 - Math.pow(1 - progress, 3);
-        el.textContent = Math.floor(start + (end - start) * eased);
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        } else {
-            el.textContent = end;
-        }
-    }
+      this.appendChild(ripple);
 
-    requestAnimationFrame(update);
+      setTimeout(() => ripple.remove(), 600);
+    });
+  });
+});
+
+// ===== KEYBOARD SHORTCUTS =====
+document.addEventListener('keydown', function (e) {
+  // Escape to close modals
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.active').forEach(m => {
+      m.classList.remove('active');
+    });
+    closeMobileSidebar();
+  }
+});
+
+// ===== CONFIRM DIALOG =====
+function showConfirmDialog(message, actionUrl) {
+  const dialog = document.getElementById('confirmDialog');
+  const msg = document.getElementById('confirmMessage');
+  const form = document.getElementById('confirmForm');
+  if (dialog && msg && form) {
+    msg.textContent = message;
+    form.action = actionUrl;
+    dialog.classList.add('active');
+  }
 }
 
-
-// ===== TOAST =====
-
-function showToast(message, type) {
-    type = type || 'info';
-    var container = document.querySelector('.toast-container');
-    if (!container) {
-        container = document.createElement('div');
-        container.className = 'toast-container';
-        document.body.appendChild(container);
-    }
-
-    var icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
-    var toast = document.createElement('div');
-    toast.className = 'toast toast-' + type;
-    toast.innerHTML = (icons[type] || 'ℹ️') + ' ' + message;
-    toast.style.cursor = 'pointer';
-    toast.onclick = function () { this.remove(); };
-    container.appendChild(toast);
-
-    setTimeout(function () {
-        toast.style.transition = 'all 0.35s ease';
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateX(100%)';
-        setTimeout(function () { toast.remove(); }, 350);
-    }, 5000);
+function closeConfirmDialog() {
+  const dialog = document.getElementById('confirmDialog');
+  if (dialog) {
+    dialog.classList.remove('active');
+  }
 }
 
+// ===== LOADING SPINNER =====
+function showLoading() {
+  const el = document.getElementById('loading');
+  if (el) el.style.display = 'flex';
+}
 
-// ===== MODAL =====
+function hideLoading() {
+  const el = document.getElementById('loading');
+  if (el) el.style.display = 'none';
+}
 
+// ===== MODAL HELPERS =====
 function openModal(id) {
-    var modal = document.getElementById(id);
-    if (modal) {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
+  const modal = document.getElementById('modal-' + id);
+  if (modal) modal.classList.add('active');
 }
 
 function closeModal(id) {
-    var modal = document.getElementById(id);
-    if (modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
+  const modal = document.getElementById('modal-' + id);
+  if (modal) modal.classList.remove('active');
 }
 
-// Close modal on overlay click
-document.addEventListener('click', function (e) {
-    if (e.target.classList.contains('modal-overlay')) {
-        e.target.classList.remove('active');
-        document.body.style.overflow = '';
-    }
+// ===== ACCORDION TOGGLE =====
+function toggleAccordion(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    const isOpen = el.style.display !== 'none';
+    el.style.display = isOpen ? 'none' : 'block';
+  }
+}
+
+// ===== SCROLL TO TOP =====
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===== CLOSE MOBILE SIDEBAR ON RESIZE =====
+window.addEventListener('resize', function () {
+  if (window.innerWidth > 768) {
+    closeMobileSidebar();
+  }
 });
-
-
-// ===== UTILITIES =====
-
-function printPage() { window.print(); }
-
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(function () {
-        showToast('Copied to clipboard!', 'success');
-    });
-}

@@ -7,129 +7,96 @@
 
   <nav class="sidebar-nav">
     <div class="nav-section">Main</div>
-    <a
-      href="{%url 'admin_dashboard' %}"
-      class="{%if request.path == '/admin-panel/' %}active{%endif %}">
+    <a href="{% url 'admin_dashboard' %}" class="{% if request.path == '/admin-panel/' %}active{% endif %}" data-tooltip="Dashboard">
       <span class="nav-icon">📊</span>
       <span class="nav-text">Dashboard</span>
     </a>
 
     <div class="nav-section">Students</div>
-    <a
-      href="{%url 'file_list' %}"
-      class="{%if 'files' in request.path %}active{%endif %}">
+    <a href="{% url 'file_list' %}" class="{% if 'files' in request.path %}active{% endif %}" data-tooltip="Student Files">
       <span class="nav-icon">📁</span>
       <span class="nav-text">Student Files</span>
     </a>
-    <a
-      href="{%url 'upload_excel' %}"
-      class="{%if 'upload' in request.path %}active{%endif %}">
+    <a href="{% url 'upload_excel' %}" class="{% if 'upload' in request.path %}active{% endif %}" data-tooltip="Upload Excel">
       <span class="nav-icon">📤</span>
       <span class="nav-text">Upload Excel</span>
     </a>
 
     <div class="nav-section">Staff</div>
-    <a
-      href="{%url 'teacher_list' %}"
-      class="{%if 'teachers' in request.path %}active{%endif %}">
+    <a href="{% url 'teacher_list' %}" class="{% if 'teachers' in request.path %}active{% endif %}" data-tooltip="Teachers">
       <span class="nav-icon">👨‍🏫</span>
       <span class="nav-text">Teachers</span>
     </a>
-    <a
-      href="{%url 'guardian_list' %}"
-      class="{%if 'guardians' in request.path %}active{%endif %}">
+    <a href="{% url 'guardian_list' %}" class="{% if 'guardians' in request.path %}active{% endif %}" data-tooltip="Guardians">
       <span class="nav-icon">🧑‍🤝‍🧑</span>
       <span class="nav-text">Guardians</span>
     </a>
-    <a
-      href="{%url 'hod_list' %}"
-      class="{%if 'hods' in request.path %}active{%endif %}">
+    <a href="{% url 'hod_list' %}" class="{% if 'hods' in request.path %}active{% endif %}" data-tooltip="HODs">
       <span class="nav-icon">👨‍💼</span>
       <span class="nav-text">HODs</span>
     </a>
 
     <div class="nav-section">Access Control</div>
-    <a
-      href="{%url 'permission_list' %}"
-      class="{%if 'permissions' in request.path %}active{%endif %}">
+    <a href="{% url 'permission_list' %}" class="{% if 'permissions' in request.path %}active{% endif %}" data-tooltip="Permissions">
       <span class="nav-icon">🔐</span>
       <span class="nav-text">Permissions</span>
     </a>
-    <a
-      href="{%url 'notification_list' %}"
-      class="{%if 'notifications' in request.path and 'activity' not in request.path %}active{%endif %}">
+    <a href="{% url 'notification_list' %}" class="{% if 'notifications' in request.path and 'activity' not in request.path %}active{% endif %}" data-tooltip="Edit Requests">
       <span class="nav-icon">📋</span>
       <span class="nav-text">Edit Requests</span>
-      {%if unread_notification_count > 0 %}
-      <span class="nav-badge">{{unread_notification_count }}</span>
-      {%endif %}
+      {% if unread_notification_count > 0 %}
+      <span class="nav-badge">{{ unread_notification_count }}</span>
+      {% endif %}
     </a>
 
     <div class="nav-section">Communication</div>
-    <a
-      href="{%url 'announcement_list' %}"
-      class="{%if 'announcements' in request.path %}active{%endif %}">
+    <a href="{% url 'announcement_list' %}" class="{% if 'announcements' in request.path %}active{% endif %}" data-tooltip="Announcements">
       <span class="nav-icon">📢</span>
       <span class="nav-text">Announcements</span>
-      {%if unread_announcement_count > 0 %}
-      <span class="nav-badge">{{unread_announcement_count }}</span>
-      {%endif %}
+      {% if unread_announcement_count > 0 %}
+      <span class="nav-badge">{{ unread_announcement_count }}</span>
+      {% endif %}
     </a>
-    <a
-      href="{%url 'activity_feed' %}"
-      class="{%if 'activity' in request.path %}active{%endif %}">
+    <a href="{% url 'activity_feed' %}" class="{% if 'activity' in request.path %}active{% endif %}" data-tooltip="Activity Feed">
       <span class="nav-icon">🔔</span>
       <span class="nav-text">Activity Feed</span>
-      {%if unread_activity_count > 0 %}
-      <span class="nav-badge">{{unread_activity_count }}</span>
-      {%endif %}
+      {% if unread_activity_count > 0 %}
+      <span class="nav-badge">{{ unread_activity_count }}</span>
+      {% endif %}
     </a>
 
     <div class="nav-section">Reports</div>
-    <a
-      href="{%url 'reports_dashboard' %}"
-      class="{%if 'reports' in request.path %}active{%endif %}">
+    <a href="{% url 'reports_dashboard' %}" class="{% if 'reports' in request.path %}active{% endif %}" data-tooltip="Reports">
       <span class="nav-icon">📈</span>
       <span class="nav-text">Reports</span>
     </a>
-    <a
-      href="{%url 'audit_log' %}"
-      class="{%if 'audit' in request.path %}active{%endif %}">
+    <a href="{% url 'audit_log' %}" class="{% if 'audit' in request.path %}active{% endif %}" data-tooltip="Audit Log">
       <span class="nav-icon">📊</span>
       <span class="nav-text">Audit Log</span>
     </a>
 
     <div class="nav-section">Account</div>
-    <a
-      href="{%url 'profile' %}"
-      class="{%if 'profile' in request.path %}active{%endif %}">
+    <a href="{% url 'profile' %}" class="{% if 'profile' in request.path %}active{% endif %}" data-tooltip="My Profile">
       <span class="nav-icon">👤</span>
       <span class="nav-text">My Profile</span>
     </a>
-    <a
-      href="{%url 'change_password' %}"
-      class="{%if 'change-password' in request.path %}active{%endif %}">
+    <a href="{% url 'change_password' %}" class="{% if 'change-password' in request.path %}active{% endif %}" data-tooltip="Change Password">
       <span class="nav-icon">🔑</span>
       <span class="nav-text">Change Password</span>
     </a>
   </nav>
 
   <div class="sidebar-user">
-    <a href="{%url 'profile' %}" style="text-decoration: none">
+    <a href="{% url 'profile' %}" style="text-decoration: none;">
       <div class="user-card">
-        {%if request.user.photo %}
-        <img
-          src="{{request.user.photo.url }}"
-          alt=""
-          class="user-avatar"
-          style="object-fit: cover"
-        />
-        {%else %}
-        <div class="user-avatar">{{request.user.initials }}</div>
-        {%endif %}
+        {% if request.user.photo %}
+        <img src="{{ request.user.photo.url }}" alt="" class="user-avatar" style="object-fit: cover;" />
+        {% else %}
+        <div class="user-avatar">{{ request.user.initials }}</div>
+        {% endif %}
         <div>
-          <div class="user-name">{{request.user.full_name }}</div>
-          <div class="user-role">{{request.user.get_role_display }}</div>
+          <div class="user-name">{{ request.user.full_name }}</div>
+          <div class="user-role">{{ request.user.get_role_display }}</div>
         </div>
       </div>
     </a>
