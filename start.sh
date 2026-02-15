@@ -2,13 +2,15 @@
 set -e
 
 echo "=== Starting Application ==="
-echo "PORT = $PORT"
+
+echo "=== Collecting Static Files ==="
+python manage.py collectstatic --noinput || echo "Collectstatic failed but continuing..."
 
 echo "=== Running Migrations ==="
-python manage.py migrate 2>&1 || echo "Migration failed but continuing..."
+python manage.py migrate || echo "Migration failed but continuing..."
 
 echo "=== Creating Admin ==="
-python manage.py create_admin 2>&1 || echo "Create admin failed but continuing..."
+python manage.py create_admin || echo "Create admin failed but continuing..."
 
 echo "=== Starting Gunicorn on port ${PORT:-8080} ==="
 exec gunicorn sms_project.wsgi:application \
