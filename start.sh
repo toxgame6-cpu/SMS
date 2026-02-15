@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "=== Starting Application ==="
-
 echo "=== Collecting Static Files ==="
 python manage.py collectstatic --noinput
 
@@ -9,7 +7,7 @@ echo "=== Running Migrations ==="
 python manage.py migrate
 
 echo "=== Creating Admin ==="
-python manage.py create_admin
+python manage.py create_admin && echo "Admin created" || echo "Admin creation failed, continuing..."
 
 echo "=== Starting Gunicorn on port ${PORT:-8080} ==="
 exec gunicorn sms_project.wsgi:application \
