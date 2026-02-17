@@ -163,6 +163,8 @@ if not DEBUG:
 # ===== FILE UPLOAD =====
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
+ALLOWED_EXCEL_EXTENSIONS = ['.xlsx', '.xls']
+MAX_UPLOAD_SIZE = 10 * 1024 * 1024  # 10MBpython manage.py runserver
 
 # ===== LOGGING =====
 LOGGING = {
