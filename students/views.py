@@ -1,4 +1,7 @@
+<<<<<<< HEAD
+=======
  
+>>>>>>> e4bbf3dd0fc40e84d27f29d23086c4bd0828fc2a
 import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -7,6 +10,10 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, Http404
 from django.conf import settings
 from django.db.models import Q
+<<<<<<< HEAD
+from datetime import datetime
+=======
+>>>>>>> e4bbf3dd0fc40e84d27f29d23086c4bd0828fc2a
 
 from accounts.decorators import admin_required, role_required
 from accounts.utils import log_action
@@ -79,16 +86,40 @@ def upload_excel(request):
             # Create Students
             student_objects = []
             for data in students_data:
+<<<<<<< HEAD
+                # Parse birthdate if present
+                birthdate_value = None
+                if data.get('birthdate'):
+                    try:
+                        birthdate_value = datetime.strptime(data['birthdate'], '%Y-%m-%d').date()
+                    except:
+                        pass
+                
+=======
+>>>>>>> e4bbf3dd0fc40e84d27f29d23086c4bd0828fc2a
                 student_objects.append(Student(
                     file=student_file,
                     roll_no=data['roll_no'],
                     prn=data['prn'],
+<<<<<<< HEAD
+                    abc_id=data.get('abc_id', ''),
+                    full_name=data['full_name'],
+                    phone=data.get('phone', ''),
+                    email=data.get('email', ''),
+                    parent_name=data.get('parent_name', ''),
+                    parent_phone=data.get('parent_phone', ''),
+                    birthdate=birthdate_value,
+                    gender=data.get('gender', ''),
+                    address=data.get('address', ''),
+                    permanent_address=data.get('permanent_address', ''),
+=======
                     full_name=data['full_name'],
                     phone=data['phone'],
                     email=data['email'],
                     parent_name=data['parent_name'],
                     parent_phone=data['parent_phone'],
                     address=data['address'],
+>>>>>>> e4bbf3dd0fc40e84d27f29d23086c4bd0828fc2a
                     class_name=class_name,
                     division=division,
                     year=year,
@@ -313,6 +344,10 @@ def my_assigned_files(request):
         'selected_year': '',
     })
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> e4bbf3dd0fc40e84d27f29d23086c4bd0828fc2a
 @login_required
 def student_pdf(request, pk):
     """Generate PDF for student profile."""

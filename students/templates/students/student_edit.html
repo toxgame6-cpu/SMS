@@ -1,12 +1,101 @@
+<<<<<<< HEAD
+{% extends 'layouts/base.html' %}
+{% block title %}Edit {{ student.full_name }} - SMS Portal{% endblock %}
+{% block breadcrumb %}Students > {{ student.full_name }} > Edit{% endblock %}
+{% block content %}
+
+<div class="page-header">
+  <h1>✏️ Edit Student</h1>
+  <p>Update {{ student.full_name }}'s record</p>
+=======
 {%extends 'layouts/base.html' %} {%block title %}Edit {{student.full_name }}
 - SMS Portal{%endblock %} {%block breadcrumb %}Students > {{student.full_name }} > Edit{%endblock %} {%block content %}
 <div class="page-header">
   <h1>✏️ Edit Student</h1>
   <p>Update {{student.full_name }}'s record</p>
+>>>>>>> e4bbf3dd0fc40e84d27f29d23086c4bd0828fc2a
 </div>
 
 <div class="card" style="max-width: 600px">
   <form method="POST" enctype="multipart/form-data">
+<<<<<<< HEAD
+    {% csrf_token %}
+    {% if form.errors %}
+    <div style="background: #fee2e2; color: #dc2626; padding: 10px; border-radius: 8px; font-size: 13px; margin-bottom: 16px;">
+      {% for field, errors in form.errors.items %}
+        {% for error in errors %}
+          <p>{{ field }}: {{ error }}</p>
+        {% endfor %}
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px">
+      <div class="form-group">
+        <label>Full Name *</label>
+        {{ form.full_name }}
+      </div>
+      <div class="form-group">
+        <label>Roll No *</label>
+        {{ form.roll_no }}
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px">
+      <div class="form-group">
+        <label>PRN *</label>
+        {{ form.prn }}
+      </div>
+      <div class="form-group">
+        <label>ABC ID</label>
+        {{ form.abc_id }}
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px">
+      <div class="form-group">
+        <label>Phone</label>
+        {{ form.phone }}
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        {{ form.email }}
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px">
+      <div class="form-group">
+        <label>Parent Phone</label>
+        {{ form.parent_phone }}
+      </div>
+      <div class="form-group">
+        <label>Birthdate</label>
+        {{ form.birthdate }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Gender</label>
+      {{ form.gender }}
+    </div>
+
+    <div class="form-group">
+      <label>Local Address</label>
+      {{ form.address }}
+    </div>
+
+    <div class="form-group">
+      <label>Permanent Address</label>
+      {{ form.permanent_address }}
+    </div>
+
+    <div class="form-group">
+      <label>Photo</label>
+      {{ form.photo }}
+    </div>
+
+    <div style="text-align: right; margin-top: 20px; padding-top: 15px; border-top: 1px solid #f1f5f9;">
+=======
     {%csrf_token %} {%if form.errors %}
     <div
       style="
@@ -56,9 +145,15 @@
         padding-top: 15px;
         border-top: 1px solid #f1f5f9;
       ">
+>>>>>>> e4bbf3dd0fc40e84d27f29d23086c4bd0828fc2a
       <a href="javascript:history.back()" class="btn btn-secondary">← Back</a>
       <button type="submit" class="btn btn-primary">💾 Save Changes</button>
     </div>
   </form>
 </div>
+<<<<<<< HEAD
+
+{% endblock %}
+=======
 {%endblock %}
+>>>>>>> e4bbf3dd0fc40e84d27f29d23086c4bd0828fc2a
