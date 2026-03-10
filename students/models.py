@@ -1,3 +1,5 @@
+   
+ 
 from django.db import models
 from django.conf import settings
 
@@ -40,13 +42,13 @@ class Student(models.Model):
         ('marked', 'Edit Marked'),
         ('resolved', 'Resolved'),
     )
-    
+     
     GENDER_CHOICES = (
         ('male', 'Male'),
         ('female', 'Female'),
         ('other', 'Other'),
     )
-
+ 
     file = models.ForeignKey(
         StudentFile,
         on_delete=models.CASCADE,
@@ -54,17 +56,18 @@ class Student(models.Model):
     )
     roll_no = models.CharField(max_length=10)
     prn = models.CharField(max_length=30)
-    abc_id = models.CharField(max_length=50, blank=True, default='')
-    full_name = models.CharField(max_length=255)
+     abc_id = models.CharField(max_length=50, blank=True, default='')
+     full_name = models.CharField(max_length=255)
     phone = models.CharField(max_length=15, blank=True, default='')
     email = models.EmailField(blank=True, default='')
     parent_name = models.CharField(max_length=255, blank=True, default='')
     parent_phone = models.CharField(max_length=15, blank=True, default='')
-    birthdate = models.DateField(null=True, blank=True)
+     birthdate = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, blank=True, default='')
     address = models.TextField(blank=True, default='')
     permanent_address = models.TextField(blank=True, default='')
-    photo = models.ImageField(upload_to='student_photos/', blank=True, null=True)
+     address = models.TextField(blank=True, default='')
+     photo = models.ImageField(upload_to='student_photos/', blank=True, null=True)
     class_name = models.CharField(max_length=100)
     division = models.CharField(max_length=10)
     year = models.CharField(max_length=50)

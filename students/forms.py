@@ -43,14 +43,20 @@ class StudentEditForm(forms.ModelForm):
     class Meta:
         model = Student
         fields = [
+ 
             'full_name', 'roll_no', 'prn', 'abc_id', 'phone', 'email',
             'parent_phone', 'birthdate', 'gender', 'address', 
             'permanent_address', 'photo'
+ 
+            'full_name', 'roll_no', 'prn', 'phone', 'email',
+            'parent_name', 'parent_phone', 'address', 'photo'
+ 
         ]
         widgets = {
             'full_name': forms.TextInput(attrs={'class': 'form-input'}),
             'roll_no': forms.TextInput(attrs={'class': 'form-input'}),
             'prn': forms.TextInput(attrs={'class': 'form-input'}),
+ 
             'abc_id': forms.TextInput(attrs={'class': 'form-input'}),
             'phone': forms.TextInput(attrs={'class': 'form-input'}),
             'email': forms.EmailInput(attrs={'class': 'form-input'}),
@@ -59,5 +65,11 @@ class StudentEditForm(forms.ModelForm):
             'gender': forms.Select(attrs={'class': 'form-input'}),
             'address': forms.Textarea(attrs={'class': 'form-input', 'rows': 3}),
             'permanent_address': forms.Textarea(attrs={'class': 'form-input', 'rows': 3}),
-            'photo': forms.FileInput(attrs={'class': 'form-input'}),
+ 
+            'phone': forms.TextInput(attrs={'class': 'form-input'}),
+            'email': forms.EmailInput(attrs={'class': 'form-input'}),
+            'parent_name': forms.TextInput(attrs={'class': 'form-input'}),
+            'parent_phone': forms.TextInput(attrs={'class': 'form-input'}),
+            'address': forms.Textarea(attrs={'class': 'form-input', 'rows': 3}),
+             'photo': forms.FileInput(attrs={'class': 'form-input'}),
         }

@@ -10,7 +10,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ===== SECURITY =====
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-change-this-in-production-please-1234567890')
 
+ 
 DEBUG = True
+ 
+DEBUG = os.environ.get('DEBUG', 'False').lower() in ('true', '1', 'yes')
+ 
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
@@ -162,8 +166,10 @@ if not DEBUG:
 # ===== FILE UPLOAD =====
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
+ 
 ALLOWED_EXCEL_EXTENSIONS = ['.xlsx', '.xls']
 MAX_UPLOAD_SIZE = 10 * 1024 * 1024  # 10MB
+ 
 
 # ===== LOGGING =====
 LOGGING = {

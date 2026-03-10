@@ -1,3 +1,4 @@
+ 
 import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -6,8 +7,8 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse, Http404
 from django.conf import settings
 from django.db.models import Q
-from datetime import datetime
-
+ from datetime import datetime
+ 
 from accounts.decorators import admin_required, role_required
 from accounts.utils import log_action
 from .models import StudentFile, Student
@@ -79,7 +80,7 @@ def upload_excel(request):
             # Create Students
             student_objects = []
             for data in students_data:
-                # Parse birthdate if present
+                 # Parse birthdate if present
                 birthdate_value = None
                 if data.get('birthdate'):
                     try:
@@ -87,11 +88,12 @@ def upload_excel(request):
                     except:
                         pass
                 
+ 
                 student_objects.append(Student(
                     file=student_file,
                     roll_no=data['roll_no'],
                     prn=data['prn'],
-                    abc_id=data.get('abc_id', ''),
+                     abc_id=data.get('abc_id', ''),
                     full_name=data['full_name'],
                     phone=data.get('phone', ''),
                     email=data.get('email', ''),
@@ -101,7 +103,13 @@ def upload_excel(request):
                     gender=data.get('gender', '').strip().lower() if data.get('gender', '') else '',
                     address=data.get('address', ''),
                     permanent_address=data.get('permanent_address', ''),
-                    class_name=class_name,
+                     full_name=data['full_name'],
+                    phone=data['phone'],
+                    email=data['email'],
+                    parent_name=data['parent_name'],
+                    parent_phone=data['parent_phone'],
+                    address=data['address'],
+                     class_name=class_name,
                     division=division,
                     year=year,
                 ))
@@ -330,7 +338,7 @@ def my_assigned_files(request):
         'selected_year': '',
     })
 
-
+ 
 @login_required
 def student_pdf(request, pk):
     """Generate PDF for student profile."""
